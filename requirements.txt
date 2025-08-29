@@ -1,0 +1,7 @@
+google-generativeai
+requests
+beautifulsoup4
+python-docx
+pypandoc
+python-dotenv
+PyPDF2

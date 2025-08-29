@@ -1,0 +1,10 @@
+# Archivos de entorno - ¡NUNCA SUBIR ESTO!
+.env
+
+# Carpetas de caché y salida
+cache/
+output/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
