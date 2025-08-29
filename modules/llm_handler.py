@@ -44,6 +44,8 @@ class LLMHandler:
             logging.error(f"Error al procesar la selección de fuentes de la IA: {e}")
             return []
 
+
+    #Funcion arquitecto define estructura
     def generate_table_of_contents(self, book_topic): # Ya no necesita 'full_context'
         logging.info("🧠 Generando tabla de contenidos a medida...")
         prompt = config.TOC_GENERATION_PROMPT.format(topic=book_topic) # Prompt simplificado

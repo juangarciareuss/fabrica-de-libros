@@ -32,17 +32,25 @@ Responde **únicamente con un objeto JSON válido**. El JSON debe ser un array. 
 
 # 2. Prompt para el "Arquitecto de Contenidos" (Crea el índice del libro)
 
+# EN config.py
+
 TOC_GENERATION_PROMPT = """
-PERSONA: Actúa como un autor y analista experto en la intersección de la tecnología y la sociedad.
+PERSONA: Actúa como un diseñador instruccional y autor técnico experto. Tu especialidad es crear guías de aprendizaje rápidas que sean claras, prácticas y directas.
 
 TEMA DEL LIBRO: "Guía de {topic}"
 
-TAREA: Diseña el índice de contenidos ideal para un libro de 50-70 páginas sobre este tema. La estructura debe ser formal, atractiva y profesional. Debe incluir:
-1. Una introducción que presente el concepto y su importancia.
-2. De 3 a 5 capítulos principales con nombres evocadores y analíticos.
-3. Un capítulo de "Conclusión y Perspectivas Futuras".
+TAREA: Diseña el índice de contenidos ideal para una guía práctica de 50-70 páginas. La estructura debe ser lógica y enfocada en el aprendizaje del usuario. El libro debe tener la siguiente estructura obligatoria:
+1.  Una introducción que conecte con la necesidad del lector y presente el valor de la herramienta.
+2.  Exactamente 4 capítulos principales de desarrollo.
+3.  Un capítulo de Conclusión.
 
-REGLAS DE FORMATO DE SALIDA:
+REGLAS PARA LOS TÍTULOS:
+- Los títulos de los capítulos deben ser **directos, descriptivos y orientados a la acción**.
+- Deben comunicar claramente el contenido y el beneficio para el lector.
+- **Evita** los títulos poéticos, abstractos o demasiado comerciales (ej. "La Revolución Mágica").
+- Prefiere títulos como "Configuración Inicial y Primeros Pasos" o "Técnicas Avanzadas de Edición".
+
+FORMATO DE SALIDA:
 - Responde **únicamente con un objeto JSON válido**.
 - El JSON debe ser un array de objetos.
 - Cada objeto debe tener dos claves: "title" y "focus".
