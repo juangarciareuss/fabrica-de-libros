@@ -1,0 +1,136 @@
+{
+  "agents": [
+    {
+      "agent_id": "research_web_query_generator",
+      "role": "Generador de Consultas Web",
+      "prompt_variable": "WEB_QUERY_GENERATOR_PROMPT",
+      "prompt_file": "prompts/research_agents.py"
+    },
+    {
+      "agent_id": "research_url_preselector",
+      "role": "Pre-Selector de Fuentes URL",
+      "prompt_variable": "URL_PRESELECTION_AGENT_PROMPT",
+      "prompt_file": "prompts/research_agents.py"
+    },
+    {
+      "agent_id": "research_master_curator",
+      "role": "Curador Maestro de Contenido",
+      "prompt_variable": "MASTER_CURATOR_PROMPT",
+      "prompt_file": "prompts/research_agents.py"
+    },
+    {
+      "agent_id": "structuring_toc_generator",
+      "role": "Arquitecto de Contenidos (Tabla de Contenidos)",
+      "prompt_variable": "TOC_GENERATION_PROMPT",
+      "prompt_file": "prompts/structuring_agents.py"
+    },
+    {
+      "agent_id": "structuring_context_summarizer",
+      "role": "Sumarizador de Contexto",
+      "prompt_variable": "CONTEXTUAL_SUMMARY_PROMPT",
+      "prompt_file": "prompts/structuring_agents.py"
+    },
+    {
+      "agent_id": "writer_introduction",
+      "role": "Escritor de Introducciones",
+      "prompt_variable": "INTRODUCTION_WRITING_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_conclusion",
+      "role": "Escritor de Conclusiones",
+      "prompt_variable": "CONCLUSION_WRITING_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_foundational",
+      "role": "Escritor Especialista en Contenido Fundacional",
+      "prompt_variable": "FOUNDATIONAL_CHAPTER_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_tutorial",
+      "role": "Escritor Especialista en Tutoriales Prácticos",
+      "prompt_variable": "PRACTICAL_TUTORIAL_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_use_cases",
+      "role": "Escritor Especialista en Casos de Uso",
+      "prompt_variable": "USE_CASES_CHAPTER_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_comparison",
+      "role": "Escritor Especialista en Comparativas",
+      "prompt_variable": "COMPARISON_CHAPTER_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_dynamic_rewriter",
+      "role": "Reescritor de Párrafos (Investigación Dinámica)",
+      "prompt_variable": "REWRITE_PARAGRAPH_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "writer_generic_fallback",
+      "role": "Escritor Genérico (Fallback)",
+      "prompt_variable": "CHAPTER_WRITING_PROMPT",
+      "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "critic_generic_fallback",
+      "role": "Crítico General (Fallback)",
+      "prompt_variable": "CRITIQUE_CHAPTER_PROMPT",
+      "prompt_file": "prompts/critic_agents.py"
+    },
+    {
+      "agent_id": "critic_tutorial",
+      "role": "Crítico Especialista en Tutoriales (Beta Tester)",
+      "prompt_variable": "CRITIQUE_TUTORIAL_PROMPT",
+      "prompt_file": "prompts/critic_agents.py"
+    },
+    {
+      "agent_id": "critic_foundational",
+      "role": "Crítico Especialista en Contenido Fundacional",
+      "prompt_variable": "CRITIQUE_FOUNDATIONAL_PROMPT",
+      "prompt_file": "prompts/critic_agents.py"
+    },
+    {
+      "agent_id": "critic_use_cases",
+      "role": "Crítico Especialista en Casos de Uso",
+      "prompt_variable": "CRITIQUE_USE_CASES_PROMPT",
+      "prompt_file": "prompts/critic_agents.py"
+    },
+    {
+      "agent_id": "refactor_generic_fallback",
+      "role": "Refactorizador General (Fallback)",
+      "prompt_variable": "REFACTOR_CHAPTER_PROMPT",
+      "prompt_file": "prompts/refactor_agents.py"
+    },
+    {
+      "agent_id": "refactor_tutorial",
+      "role": "Refactorizador Especialista en Tutoriales",
+      "prompt_variable": "REFACTOR_TUTORIAL_PROMPT",
+      "prompt_file": "prompts/refactor_agents.py"
+    },
+    {
+      "agent_id": "refactor_foundational",
+      "role": "Refactorizador Especialista en Contenido Fundacional",
+      "prompt_variable": "REFACTOR_FOUNDATIONAL_PROMPT",
+      "prompt_file": "prompts/refactor_agents.py"
+    },
+    {
+      "agent_id": "refactor_use_cases",
+      "role": "Refactorizador Especialista en Casos de Uso",
+      "prompt_variable": "REFACTOR_USE_CASES_PROMPT",
+      "prompt_file": "prompts/refactor_agents.py"
+    },
+    {
+      "agent_id": "auditor_system",
+      "role": "Auditor de Sistema y Rendimiento de Agentes",
+      "prompt_variable": "SYSTEM_AUDITOR_PROMPT",
+      "prompt_file": "prompts/audit_agents.py"
+    }
+  ]
+}

@@ -1,0 +1,542 @@
+{
+    "core_concepts": [
+        {
+            "snippet": "Nanobanana ha sido una revolución. Es la mejor herramienta para generar, editar y transformar imágenes. Y además la puedes utilizar de un modo completamente gratuito. Su potencial es enorme",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "Nano Banana from Google, officially known as Gemini 2.5/image",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Nano Banana is part of Gemini 2.5, giving it a good understanding of the world and natural language.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana excels at collaborative edits through natural language, allowing for various image manipulations like changing hairstyles, eye color, etc.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana's image editing capabilities have led to discussions about Photoshop's obsolescence.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana produces images with low fidelity, especially in the Gemini app, making upscaling a recommended post-processing step.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana struggles with precise aspect ratio control and making multiple small, consecutive edits.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana is a powerful tool for product photo creation, ad making, and landing page design.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana can generate various creative content such as fonts, business cards, and character designs.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana can be used to create consistent characters across multiple scenes, maintaining style and details.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana's combination with video tools unlocks various possibilities for animation and video content creation.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana can be used for B-roll creation and style/character changes in existing videos.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana is available for free in Google AI Studio, and with unlimited access on Freepik's higher plans.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana is a significant leap forward in AI image editing technology.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana, also known as Gemini 2.5 flash image, retains character and scene consistency while allowing you to change anything about the image that you want by simply typing to it in plain English.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "The way it works is that you give it an image, you give it a prompt, and it completely changes the look of the image by just describing what you want to be changed.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "The only limitation is that the resolution dimensions of the output image will be the same as that of the input image.",
+            "source": "YouTube Video"
+        }
+    ],
+    "technical_details": [
+        {
+            "snippet": "Simplemente tenéis que tener una cuenta de Google, entrar a esta dirección de aquíudio.google.com y aseguraros que empezáis a chatear con el modelo Gemini 2.5 Flash Image Preview activado.",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "Nano Banana is accessible through the Gemini app and Google AI Studio.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Google AI Studio offers free access to Nano Banana, but with image and video generation limitations.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Freepik provides unlimited Nano Banana access on higher-tier plans, without watermarks and less image compression.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana by Google available to you in Gemini and Google AI Studio",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "You can now access Nano Banana on the API and create powerful apps that you've never done before.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "AI Studio which has direct access of 2.5 flash image model and start using it to build any app that you want to and see how it looks.",
+            "source": "YouTube Video"
+        }
+    ],
+    "use_cases": [
+        {
+            "snippet": "mejora de imágenes. corrige el balance de blancos de esta foto y su exposición",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "corrección de pieles. elimine el acné y las marcas de piel de esta fotografía",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "imágenes rotas o que se deben recomponer",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "poner o quitar objetos",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "cambiar el estilo, cambiar el peinado",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "incorporar objetos",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "trabajar con referencias múltiples",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "generar múltiples referencias como una hoja de modelo de personaje",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "crear fotogramas clave",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "crear escenas en vídeo generadas con inteligencia artificial, con total continuidad, tan largas como queráis",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "sustituir los tediosos procesos de entrenamiento de modelos para generar imágenes consistentes de personajes",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "limpiar imágenes, borrar todos los muebles para dejar la estancia vacía",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "home staging virtual. mejora el acabado de las paredes y usa muebles modernos",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "añadir objetos puntuales",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "editar un elemento concreto",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "cambios de iluminación. la fotografía parezca sacada en otro momento del día",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "reemplazos completos de fondo",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "pasar de un sketch a una imagen fotorrealista",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "combinar ambos extremos de cómo podemos utilizar esta herramienta. pasar de que nos genere algo completamente nuevo a partir de una instrucción de texto a utilizar esta imagen que nos genera para incorporarla contextualmente dentro de una imagen real",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "diseñar una etiqueta",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "reinterpretar un anuncio para llevarlo a otra cultura",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "manipular texto a diferentes niveles. escribir en cualquier tipo tipografía",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "usar la textura del abrigo para convertir el texto anterior en una representación CGI3D con la tipografía la textura y volúmenes de la chaqueta",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "añadir algunas nubes CGI con la misma texturas alrededor del texto",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "llevar una imagen a cualquier contexto por su realista que nos parezca. poner una imagen debajo de una cúpula bajo el mar",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "virar perspectivas o que nos dé diferentes puntos de vista de una misma imagen",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "cambio de estilo. pasar de una foto a un estilo concreto, o de una ilustración a una foto de referencia",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "colorización y restauración de imágenes antiguas",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "restaurar edificios de la antigüedad",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "generar imágenes completas a partir solo de un pequeño fragmento",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "editar una imagen, no según indicaciones concretas, sino según el propósito final. convertir esta foto en una foto para perfil de LinkedIn",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "hacer anotaciones en la imagen",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "interpretar una ubicación de Google Maps y generar una imagen de esa ubicación",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "anotar dentro de una imagen y combinar diferentes personajes",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "interpretar una imagen para sacar una imagen del modelo 3D equivalente",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "mezclar 13 imágenes en una sola imagen",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "I want to look like I'm having a cool night out",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Hanging out on my yacht. But let's add in some of the homies. Bezos, Zuckerberg, Ronaldo, Swift, Beyonce, and LeBron",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "get into the energy drink game",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "unlocks infinite product photos",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "alternate camera angles, insert shots, and emotions all while retaining character and style consistency",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Creating a Time magazine cover with a specified person, attire, and text.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Generating professional headshots with various modifications (hair, tattoos).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating movie posters using a personal image and incorporating specific themes.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Trying on different outfits and making various image edits (hairstyles, eye color, facial hair, glasses).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating a movie poster parody with AI crossover elements.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Fixing color and brightness issues in photos.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Adding a person into a photo and making environmental changes (snow, sweater).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Adding text to images with style and glow effects.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Changing the colors of leaves and removing velvet from a moose's antlers.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Removing people or objects from photos.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Colorizing black and white images.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Restoring damaged photos (with limitations).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Adding details to blurry photos (with limitations).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating MrBeast style thumbnails.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating thumbnails in the style of a tech software reviewer.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Recreating existing thumbnails (with aspect ratio limitations).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating product photos with simple descriptions and logo placement.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating landing pages for products.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Generating data visualizations.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating fonts based on existing logo designs.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating character designs (South Park, Minecraft, GTA 5, etc.).",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating coloring book pages from existing images.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating memes using existing images.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Transforming hand-drawn images into realistic representations.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Extruding hand-drawn fantasy maps into navigable 3D tabletop worlds.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating isometric models from images.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Generating realistic 3D models from CAD screenshots.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Testing wallpapers and interior design elements in real estate.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating consistent characters across different scenes.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Creating time-lapses from existing photos.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Animating existing photos.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Generating B-roll footage for videos.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Using Runways Act 2 for video editing and character style changes.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "change the interiors of a room that you want by adding elements",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "create images of mine from the past decades. So, how I would look like in 1970s, 2000s, 1990s, and so on and so forth.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "do all types of retouching and professional editing",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "turn me into anime",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "add text on the navy shirt he is wearing. Cool. Let's just say we say that with a logo of Google for example",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "change his hairstyle to that of men in 1970s",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "remove the watch that he is wearing on both his hands",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Add Elon Musk behind him standing and resting his hands on the shoulder of the guy",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Swap the face of the big hair guy with Donald Trump",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "change the outfit of the guy sitting and make it old money style",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "try on an outfit from Zara",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "create a banner ad and show me how that looks. Show me the banner ad of this iPhone 16 Pro Max near the airport and also add a very powerful oneliner slogan for the Apple iPhone. Take the Mumbai airport road for example",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Create a bus stop ad with this iPhone 16 Pro Max image and add a quirky oneliner slogan",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "turn this image into a Bumble ad with a oneliner slogan and the branding and colors of Bumble",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "create entire YouTube thumbnails",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "remove the guy in the right from this image",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "insert myself into this thumbnail",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "make the guy on the right really big",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "draw a ground view picture from the arrow and show me what it looks like",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Show me the ground view from the perspective of the a arrow",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "draw the ground view of Gateway of India, Mumbai",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "take multiple images and drop it into one big image",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "take all the elements and craft one image with it",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Create an app that makes it really in intuitive for people to just tap buttons and change anything that they want in the image",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Create a virtual try- on clothing app in which people can literally drag and drop outfits they see on H&M or on Instagram and they can add it to themselves and see how they will look if they are wearing that outfit",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "create a virtual tryon app using Gemini 2.5 flash image where user can drop an image of the outfit and it a image of their own and it shows how they would look if they buy this outfit",
+            "source": "YouTube Video"
+        }
+    ],
+    "expert_opinions": [
+        {
+            "snippet": "This might be the best form of character consistency we've had. Something we've been waiting for such a long time for.",
+            "source": "YouTube Video"
+        }
+    ],
+    "competitor_comparison": [
+        {
+            "snippet": "ChatGBT and Flux Context have similar natural language editing capabilities, but Nano Banana is much better.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Nano Banana is far better at creating consistent characters across scenes than Flex Context or ChachiPT.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Midjourney's aesthetics are hard to beat, but Nano Banana's can replacement feature is very effective.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "ChatchiBT struggles with preserving image integrity when making edits, unlike Nano Banana.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "I've tried Flux. I've tried all the other image generation models and this was always a big problem.",
+            "source": "YouTube Video"
+        }
+    ],
+    "future_trends": [
+        {
+            "snippet": "I will spend a lot more time experimenting.",
+            "source": "YouTube Video"
+        },
+        {
+            "snippet": "Google's nano banana is just the starting of what the future of image editing would look like. It would only improve from here.",
+            "source": "YouTube Video"
+        }
+    ]
+}

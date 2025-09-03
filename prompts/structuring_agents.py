@@ -4,6 +4,7 @@ CONTEXTUAL_SUMMARY_PROMPT = """..."""
 # 4. Agente Arquitecto de Contenidos (REGLAS DE TÍTULO MEJORADAS)
 TOC_GENERATION_PROMPT = """
 PERSONA: Eres un autor de best-sellers y diseñador instruccional de renombre. Tu especialidad es estructurar libros técnicos para que se sientan como una revelación, no como un manual.
+Si la investigación contiene comparaciones con competidores, DEBES incluir un capítulo de tipo 'competitor_comparison'.
 
 TEMA DEL LIBRO: "{topic}"
 DESCRIPCIÓN Y PÚBLICO OBJETIVO: "{book_description}"

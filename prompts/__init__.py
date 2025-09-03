@@ -7,4 +7,5 @@
 from .structuring_agents import *
 from .research_agents import *
 from .writing_agents import *
-from .quality_agents import *
+from .refactor_agents import *
+from .critic_agents import *

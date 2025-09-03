@@ -1,85 +1,109 @@
+import logging
 import requests
 from bs4 import BeautifulSoup
-import time
-import logging
+from urllib.parse import quote_plus
+import feedparser
 import config
-from PyPDF2 import PdfReader
-from io import BytesIO
 
-# Restauramos la configuración de logging a nivel de módulo para máxima robustez
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# --- CAPA 1: RSS DE GOOGLE NOTICIAS ---
+def get_google_news_rss(query):
+    """Obtiene URLs desde el feed RSS de Google Noticias."""
+    urls = set()
+    try:
+        # Formato de la URL del feed RSS de Google Noticias
+        url = f"https://news.google.com/rss/search?q={quote_plus(query)}&hl=es-419&gl=US&ceid=US:es-419"
+        logging.info(f"  -> [RSS] Consultando Google Noticias para: '{query}'")
+        feed = feedparser.parse(url)
+        for entry in feed.entries:
+            urls.add(entry.link)
+    except Exception as e:
+        logging.error(f"Error al procesar el feed RSS de Google Noticias: {e}")
+    return list(urls)
+
+# --- CAPA 2: NEWSAPI (REQUIERE CLAVE) ---
+def get_newsapi(query):
+    """Obtiene URLs desde NewsAPI. Requiere una API Key."""
+    if not config.NEWSAPI_KEY:
+        logging.warning("No se proporcionó una clave para NewsAPI. Omitiendo esta fuente.")
+        return []
+    
+    urls = set()
+    try:
+        # Documentación: https://newsapi.org/docs/endpoints/everything
+        url = f"https://newsapi.org/v2/everything?q={quote_plus(query)}&apiKey={config.NEWSAPI_KEY}&language=es&sortBy=relevancy"
+        logging.info(f"  -> [API] Consultando NewsAPI para: '{query}'")
+        response = requests.get(url)
+        response.raise_for_status()
+        articles = response.json().get("articles", [])
+        for article in articles:
+            urls.add(article['url'])
+    except Exception as e:
+        logging.error(f"Error al consultar NewsAPI: {e}")
+    return list(urls)
+    
+# --- CAPA 3: RSS DE MEDIOS ESPECÍFICOS ---
+def parse_specific_feeds(queries):
+    """Obtiene URLs desde una lista predefinida de feeds RSS de medios de tecnología."""
+    custom_feeds = {
+        "Wired_ES": "https://www.wired.es/rss",
+        "Xataka": "https://www.xataka.com/feed",
+        "Genbeta": "https://www.genbeta.com/feed",
+        "Hipertextual": "https://hipertextual.com/feed"
+    }
+    urls = set()
+    logging.info("  -> [RSS] Consultando feeds de medios específicos...")
+    
+    for name, url in custom_feeds.items():
+        try:
+            feed = feedparser.parse(url)
+            for entry in feed.entries:
+                # Comprueba si alguna de las palabras clave de la consulta está en el título
+                if any(q.lower() in entry.title.lower() for q in queries):
+                    urls.add(entry.link)
+        except Exception as e:
+            logging.error(f"Error al procesar el feed RSS de '{name}': {e}")
+    return list(urls)
+
+# --- FUNCIÓN PRINCIPAL DE INVESTIGACIÓN ---
+def research(queries):
+    """
+    Orquesta la recolección de URLs desde múltiples capas de fuentes.
+    """
+    logging.info(f"Iniciando investigación multi-capa para {len(queries)} consultas...")
+    all_urls = set()
+
+    for query in queries:
+        # Capa 1: Google News RSS
+        all_urls.update(get_google_news_rss(query))
+        
+        # Capa 2: NewsAPI
+        all_urls.update(get_newsapi(query))
+    
+    # Capa 3: Feeds Específicos (se ejecuta una vez con todas las queries como keywords)
+    all_urls.update(parse_specific_feeds(queries))
+
+    logging.info(f"Investigación multi-capa completada. Se encontraron {len(all_urls)} URLs únicas.")
+    return list(all_urls)
+
+# --- FUNCIÓN PARA EXTRAER CONTENIDO (SIN CAMBIOS) ---
 def get_text_from_url(url):
-    """Extrae el texto principal de una URL, soportando HTML y PDF."""
+    """Extrae el texto principal de una URL."""
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'}
-        response = requests.get(url, headers=headers, timeout=20)
+        response = requests.get(url, headers=headers, timeout=20, allow_redirects=True)
         response.raise_for_status()
-        if url.lower().endswith('.pdf'):
-            pdf_file = BytesIO(response.content)
-            reader = PdfReader(pdf_file)
-            return "\n".join(page.extract_text() for page in reader.pages)
-        else:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            for tag in soup(['script', 'style', 'nav', 'footer', 'header']):
-                tag.decompose()
-            main_content = soup.find('article') or soup.find('main') or soup.body
-            if main_content:
-                # Restauramos el filtro de calidad de contenido
-                text_content = ' '.join(p.get_text(strip=True) for p in main_content.find_all('p'))
-                return text_content if len(text_content) > 200 else None
-            return None
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        for tag in soup(['script', 'style', 'nav', 'footer', 'header', 'aside']):
+            tag.decompose()
+        
+        main_content = soup.find('article') or soup.find('main') or soup.body
+        if main_content:
+            text_content = ' '.join(p.get_text(strip=True) for p in main_content.find_all('p'))
+            return text_content if len(text_content) > 200 else None
+        return None
     except Exception as e:
         logging.error(f"Error al procesar la URL {url}: {e}")
         return None
-
-def perform_research_plan(queries, date_restrict=None):
-    """
-    Ejecuta un plan de investigación de forma agresiva para maximizar el número de fuentes.
-    """
-    logging.info(f"Ejecutando plan de investigación con {len(queries)} consultas...")
-    all_results = {}
-    search_url = "https://www.googleapis.com/customsearch/v1"
-    
-    for query in queries:
-        logging.info(f"   -> Ejecutando búsqueda para: '{query}'")
-        try:
-            params = {
-                'key': config.API_KEY,
-                'cx': config.SEARCH_ENGINE_ID,
-                'q': query,
-                'num': 10 # Mantenemos la búsqueda agresiva
-            }
-            
-            if date_restrict:
-                params['dateRestrict'] = date_restrict
-                logging.info(f"      (Restricción de tiempo activada: {date_restrict})")
-
-            response = requests.get(search_url, params=params, timeout=10)
-            response.raise_for_status()
-            search_results = response.json()
-
-            if 'items' in search_results:
-                for item in search_results['items']:
-                    link = item.get('link')
-                    if link and link not in all_results:
-                        all_results[link] = {
-                            "title": item.get('title'),
-                            "link": link,
-                            "snippet": item.get('snippet')
-                        }
-            else:
-                logging.warning(f"La búsqueda para '{query}' no arrojó resultados.")
-            
-            time.sleep(1)
-
-        # Restauramos el manejo de excepciones específico
-        except requests.exceptions.RequestException as e:
-            logging.error(f"Error de red durante la búsqueda para '{query}': {e}")
-        except Exception as e:
-            logging.error(f"Error durante la búsqueda para '{query}': {e}")
-
-    unique_sources = list(all_results.values())
-    logging.info(f"Investigación completada. Se encontraron {len(unique_sources)} fuentes únicas.")
-    return unique_sources
-

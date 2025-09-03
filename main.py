@@ -1,77 +1,99 @@
+# main.py
+
 import sys
 import logging
 import json
 import os
+import shutil
 from book_generator.orchestrator import BookOrchestrator
+from book_generator.workspace_manager import WorkspaceManager
 from utils import clear_directory, display_usage_summary
 import config
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 META_FILE_PATH = os.path.join("workspace", "last_run_meta.json")
 
-def save_last_run_meta(topic, description):
-    """Guarda los metadatos de la última ejecución."""
+def save_last_run_meta(topic, description, domain, topics_to_avoid):
     os.makedirs("workspace", exist_ok=True)
     with open(META_FILE_PATH, 'w', encoding='utf-8') as f:
-        json.dump({"topic": topic, "description": description}, f, indent=4)
+        json.dump({"topic": topic, "description": description, "domain": domain, "topics_to_avoid": topics_to_avoid}, f, indent=4)
 
 def load_last_run_meta():
-    """Carga los metadatos de la última ejecución si existen."""
     if os.path.exists(META_FILE_PATH):
         with open(META_FILE_PATH, 'r', encoding='utf-8') as f:
             return json.load(f)
     return None
 
-def main():
-    """
-    Punto de entrada con lógica de reanudación inteligente.
-    """
-    print("------------------------------------------------------------------")
-    print("🤖 Fábrica de Libros v21.0 - Reanudación Inteligente 🤖")
-    print("------------------------------------------------------------------")
-    
-    core_topic = None
-    description = None
+def clear_previous_project(meta_data):
+    logging.info("Limpiando datos del proyecto anterior para empezar de cero...")
+    topic = meta_data.get('topic')
+    if topic:
+        workspace_to_delete = WorkspaceManager.find_latest_workspace(topic)
+        if workspace_to_delete and os.path.isdir(workspace_to_delete):
+            try:
+                shutil.rmtree(workspace_to_delete)
+                logging.info(f"Directorio de trabajo '{workspace_to_delete}' eliminado.")
+            except OSError as e:
+                logging.error(f"Error al eliminar el directorio '{workspace_to_delete}': {e}")
+    if os.path.exists(META_FILE_PATH):
+        os.remove(META_FILE_PATH)
+        logging.info("Archivo de metadatos anterior eliminado.")
 
-    clear_cache_choice = input("¿Deseas borrar el caché de la IA? (s/n): ").lower() == 's'
-    if clear_cache_choice:
-        clear_directory("cache")
+def main():
+    print("------------------------------------------------------------------")
+    print("🤖 Fábrica de Libros v44.1 - Reseteo Forzado ⚙️")
+    print("------------------------------------------------------------------")
 
     last_meta = load_last_run_meta()
-    use_last = False
-
-    if not clear_cache_choice and last_meta:
-        print("\n--- Se encontró una ejecución anterior ---")
-        print(f"  - TEMA: {last_meta['topic']}")
-        print(f"  - DESC: {last_meta['description'][:70]}...")
-        if input("¿Deseas reanudar con este tema y descripción? (s/n): ").lower() == 's':
-            core_topic = last_meta['topic']
-            description = last_meta['description']
-            use_last = True
-            print("----------------------------------------")
-
-    if not use_last:
-        if input("¿Deseas borrar los espacios de trabajo anteriores? (s/n): ").lower() == 's':
-            clear_directory("workspace")
-        core_topic = input("Introduce el TÉRMINO CLAVE del libro: ")
-        description = input("Ahora, describe el objetivo y público del libro: ")
+    if last_meta:
+        print("\n--- Se encontró un proyecto anterior ---")
+        print(f"  - TEMA: {last_meta.get('topic')}")
+        print(f"  - DESC: {last_meta.get('description', '')[:70]}...")
         
-    if not config.API_KEY or not config.SEARCH_ENGINE_ID:
-        logging.critical("CRÍTICO: API Key o Search Engine ID no configurados en .env")
-        sys.exit(1)
-        
-    orchestrator = BookOrchestrator(core_topic, description)
+        if input("\n¿Desea continuar el proyecto anterior? (s/n): ").lower() == 's':
+            core_topic = last_meta.get('topic')
+            logging.info(f"Reanudando el proyecto: '{core_topic}'")
+            latest_workspace = WorkspaceManager.find_latest_workspace(core_topic)
+            
+            if latest_workspace:
+                orchestrator = BookOrchestrator(core_topic, "", "", [], workspace_path=latest_workspace)
+                loaded_state = orchestrator.workspace.load_progress()
+                if loaded_state:
+                    orchestrator.resume(loaded_state)
+                else:
+                    logging.error("El directorio de trabajo existe pero no se pudo cargar 'progress.json'. No se puede reanudar.")
+            else:
+                logging.error("No se encontró el directorio de trabajo para este proyecto. No se puede reanudar.")
+            return
+
+        else:
+            clear_previous_project(last_meta)
+    
+    logging.info("\n--- Iniciando un nuevo proyecto de libro desde cero ---")
+    if input("¿Limpiar caché de la IA antes de empezar? (s/n): ").lower() == 's':
+        clear_directory("cache")
+
+    print("\n--- [PASO 1 de 3] DEFINICIÓN DEL LIBRO ---")
+    core_topic = input("Introduce el TEMA CLAVE del libro (ej. 'IA en la Gastronomía Molecular'): ")
+    print("\nDescribe en detalle la visión del libro:")
+    q1 = input(" - ¿Cuál es el objetivo principal y qué problema resuelve?: ")
+    q2 = input(" - ¿Quién es el público objetivo?: ")
+    description = f"Objetivo: {q1}\nPúblico: {q2}"
+    domain = input("\n¿Cuál es el DOMINIO TEMÁTICO? (ej. 'Tecnología e IA'): ")
+    topics_to_avoid_str = input("¿Temas a EVITAR? (separados por comas): ")
+    topics_to_avoid = [t.strip() for t in topics_to_avoid_str.split(',') if t.strip()]
+
+    save_last_run_meta(core_topic, description, domain, topics_to_avoid)
+    orchestrator = BookOrchestrator(core_topic, description, domain, topics_to_avoid)
     
     try:
         fast_handler, heavy_handler = orchestrator.run()
-        save_last_run_meta(core_topic, description) # Guardar al final de una ejecución exitosa
-        display_usage_summary(fast_handler, heavy_handler)
+        if fast_handler and heavy_handler:
+            display_usage_summary(fast_handler, heavy_handler)
     except SystemExit as e:
         logging.warning(f"Proceso detenido: {e}")
     except Exception as e:
-        logging.critical(f"Ha ocurrido un error inesperado: {e}")
-        import traceback
-        traceback.print_exc()
+        logging.critical(f"Ha ocurrido un error inesperado en main: {e}", exc_info=True)
 
 if __name__ == "__main__":
     main()
-

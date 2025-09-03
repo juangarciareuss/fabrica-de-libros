@@ -1,0 +1,226 @@
+{
+    "core_concepts": [
+        {
+            "snippet": "Gemini's \"Nano Banana\" (Gemini 2.5 Flash Image) is a new AI model for image editing and generation, allowing for realistic modifications with natural language prompts.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Key features include precise edits while maintaining original image integrity, conversational editing (iterative changes), and support for multiple edits without losing context.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Available in the free version of Gemini with daily usage limits, and also accessible via Gemini's API, Google AI Studio, and Vertex AI.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Launched on August 26, 2025, initially as an internal codename, \"Nano Banana\", which quickly became its popular name.",
+            "source": "Multiple sources"
+        }
+    ],
+    "technical_details": [
+        {
+            "snippet": "Accessible via Gemini app (mobile and web), Google AI Studio, and Vertex AI.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Free version has daily usage limits; API access costs $30 per million tokens.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Uses algorithms for visual perception and synthesis to understand natural language instructions and apply changes precisely.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Integrates SynthID, an imperceptible digital watermark to verify image origin and combat deepfakes.",
+            "source": "Multiple sources"
+        }
+    ],
+    "use_cases": [
+        {
+            "snippet": "Photo retouching (adjusting color, converting to black and white).",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Removing objects from photos.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Changing elements in photos (hair color, clothing, people).",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Replacing elements in a photo with others.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Combining content from two photos.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Changing photo backgrounds.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Photo restoration.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Zooming out photos to show full body.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Changing a person's facial expression.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Creating complex scenes using a person's face as a reference.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Adding logos to images.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Changing a person's clothing.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Changing or adding text to photos.",
+            "source": "Yúbal Fernández"
+        },
+        {
+            "snippet": "Creating magazine covers.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Creating movie posters.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Generating professional headshots.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Adding tattoos to photos.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Changing hairstyles, eye color, and facial hair.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Making thumbnails for YouTube and social media.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Creating product photos for e-commerce.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Generating banner and bus stop ads.",
+            "source": "Ishan Sharma"
+        },
+        {
+            "snippet": "Creating YouTube thumbnails.",
+            "source": "Ishan Sharma"
+        },
+        {
+            "snippet": "Colorizing and restoring old photos.",
+            "source": "Multiple sources"
+        },
+        {
+            "snippet": "Creating illustrations from sketches.",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "Generating images from small fragments of images.",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "Creating consistent characters across multiple scenes.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Generating 3D models from 2D images.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Annotating images with points of interest and information.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Generating images from CAD screenshots.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Creating virtual home staging.",
+            "source": "Xavier Mitjana"
+        },
+        {
+            "snippet": "Generating different camera angles and perspectives of a scene.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Creating B-roll footage for videos.",
+            "source": "FuturePedia"
+        }
+    ],
+    "expert_opinions": [
+        {
+            "snippet": "Many users have expressed that Nano Banana's results are impressive, surpassing those of paid apps.",
+            "source": "Guille Lomener"
+        },
+        {
+            "snippet": "Experts consider Nano Banana a threat to Adobe's leadership in the graphic design and digital editing market.",
+            "source": "Agustín Galán"
+        },
+        {
+            "snippet": "\"Nano Banana is the visual generation and editing engine behind Gemini 2.5 Flash Image.\"",
+            "source": "Agustín Galán"
+        },
+        {
+            "snippet": "It's described as a \"versatile tool for creating and retouching images quickly, maintaining identity and style, and adding security barriers for responsible use.\"",
+            "source": "Agustín Galán"
+        }
+    ],
+    "competitor_comparison": [
+        {
+            "snippet": "Compared to Apple's Magic Eraser, Nano Banana uses a generative model that fills in the background and reconstructs areas more effectively.",
+            "source": "Guille Lomener"
+        },
+        {
+            "snippet": "Compared to other AI editors, Nano Banana maintains character identity and scene coherence better even with multiple edits.",
+            "source": "Jimmy Pepinosa"
+        },
+        {
+            "snippet": "Presented as a direct alternative to DALL·E, MidJourney, and Stable Diffusion, but with Google's infrastructure and user-friendly interface.",
+            "source": "Agustín Galán"
+        },
+        {
+            "snippet": "Considered superior to other AI image editors like ChatGPT and Flux Context in terms of collaborative edits via natural language.",
+            "source": "FuturePedia"
+        },
+        {
+            "snippet": "Seen as a potential competitor to Photoshop and other traditional image editing software.",
+            "source": "Multiple sources"
+        }
+    ],
+    "future_trends": [
+        {
+            "snippet": "The possibility of integrating Nano Banana with other Google services (Drive, Android) to consolidate it as a natural option for millions of users.",
+            "source": "Agustín Galán"
+        },
+        {
+            "snippet": "The potential for Nano Banana to democratize advanced image editing further and its impact on the creative sector.",
+            "source": "Agustín Galán"
+        },
+        {
+            "snippet": "The ongoing development of safety controls to limit the generation of harmful or illegal content.",
+            "source": "Agustín Galán"
+        },
+        {
+            "snippet": "The potential for misuse in creating deepfakes and spreading misinformation.",
+            "source": "Agustín Galán"
+        }
+    ]
+}
