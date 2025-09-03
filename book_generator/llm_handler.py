@@ -206,6 +206,9 @@ class LLMHandler:
     def critique_use_cases_chapter(self, **kwargs):
         return self._execute_agent_call("critic_use_cases", critic_agents.CRITIQUE_USE_CASES_PROMPT, True, **kwargs)
 
+    def critique_comparison_chapter(self, **kwargs): # <-- NUEVO MÉTODO
+        return self._execute_agent_call("critic_comparison", critic_agents.CRITIQUE_COMPARISON_PROMPT, True, **kwargs)
+
     def refactor_chapter(self, **kwargs):
         return self._execute_agent_call("refactor_generic_fallback", refactor_agents.REFACTOR_CHAPTER_PROMPT, True, **kwargs)
 
@@ -217,3 +220,6 @@ class LLMHandler:
         
     def refactor_use_cases_chapter(self, **kwargs):
         return self._execute_agent_call("refactor_use_cases", refactor_agents.REFACTOR_USE_CASES_PROMPT, True, **kwargs)
+        
+    def refactor_comparison_chapter(self, **kwargs): # <-- NUEVO MÉTODO
+        return self._execute_agent_call("refactor_comparison", refactor_agents.REFACTOR_COMPARISON_PROMPT, True, **kwargs)

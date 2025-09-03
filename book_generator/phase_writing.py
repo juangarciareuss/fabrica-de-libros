@@ -11,14 +11,12 @@ from .researcher import research, get_text_from_url
 class PhaseWriting:
     """Gestiona la escritura del borrador delegando a especialistas y manejando investigación dinámica."""
     
-    # <<< MEJORA: El __init__ ahora acepta el logger y el manifest para la auditoría >>>
     def __init__(self, state, workspace, performance_logger, agent_manifest):
         self.state = state
         self.workspace = workspace
         self.performance_logger = performance_logger
         self.agent_manifest = agent_manifest
         
-        # Pasamos el logger y manifest a los handlers para que puedan registrar el desempeño
         handler_args = {
             "performance_logger": self.performance_logger,
             "agent_manifest": self.agent_manifest
@@ -27,9 +25,8 @@ class PhaseWriting:
         self.llm_heavy = LLMHandler(config.API_KEY, config.HEAVY_MODEL_NAME, **handler_args)
 
     def _handle_dynamic_research(self, chapter_content):
-        # ... (este método no necesita cambios, ya está bien optimizado) ...
-        # (Lo he omitido aquí por brevedad, pero debe estar en tu archivo final)
-        pass # Reemplaza este 'pass' con tu código de _handle_dynamic_research
+        # Esta función está pendiente de implementación, por ahora solo devuelve el contenido.
+        return chapter_content
 
     def execute(self):
         logging.info("\n--- [FASE 2] ESTRUCTURA Y ESCRITURA CON ESPECIALISTAS ---")
@@ -37,14 +34,21 @@ class PhaseWriting:
         description = self.state["description"]
         topics_to_avoid = self.state["topics_to_avoid"]
         
-        table_of_contents, _ = self.llm_fast.generate_table_of_contents(topic=topic, book_description=description)
-        if not table_of_contents:
-            return False # Simplificado
+        if not self.state.get("table_of_contents"):
+            table_of_contents, _ = self.llm_fast.generate_table_of_contents(
+                topic=topic, 
+                book_description=description
+            )
+            if not table_of_contents:
+                logging.error("No se pudo generar la tabla de contenidos. Abortando fase de escritura.")
+                return False
+            self.state["table_of_contents"] = table_of_contents
         
-        self.state["table_of_contents"] = table_of_contents
+        table_of_contents = self.state["table_of_contents"]
         structured_research = self.workspace.load_structured_research()
         if not structured_research:
-            return False # Simplificado
+            logging.error("No se encontró la investigación estructurada. Abortando fase de escritura.")
+            return False
 
         writer_specialists = {
             'foundational_knowledge': {'method': self.llm_heavy.write_foundational_chapter, 'context_keys': ['core_concepts', 'technical_details']},
@@ -69,69 +73,44 @@ class PhaseWriting:
             
             content = None
             common_args = {
-                "book_topic": topic, "chapter_title": title, "chapter_focus": focus, 
-                "topics_to_avoid": topics_to_avoid, "chapter_type": ctype
-            }
-
-            # --- LÓGICA DE DELEGACIÓN OPTIMIZADA ---
-            specialist = writer_specialists.get(ctype)
-
-            common_args = {
                 "book_topic": topic, 
                 "chapter_title": title, 
                 "chapter_focus": focus, 
                 "topics_to_avoid": topics_to_avoid,
-                "chapter_type": ctype  # <<< AÑADE ESTA LÍNEA
+                "chapter_type": ctype
             }
 
+            specialist = writer_specialists.get(ctype)
+
             if specialist:
-                # Construye el contexto dinámicamente para el especialista
-                context = {key: structured_research.get(key, []) for key in specialist['context_keys']}
-                common_args['context'] = context
+                context_for_specialist = {key: structured_research.get(key, []) for key in specialist['context_keys']}
+                common_args['contextual_summary'] = json.dumps(context_for_specialist, ensure_ascii=False, indent=2)
                 content, _ = specialist['method'](**common_args)
 
-            elif ctype in ['introduction', 'conclusion']:
-                # Casos especiales que usan un resumen de todo
-                context_summary, _ = self.llm_fast.get_contextual_summary(master_context=structured_research, **common_args)
-                common_args['contextual_summary'] = context_summary
+            else:
+                # MEJORA: Se elimina el paso intermedio de resumen.
+                # Se pasa el dossier completo directamente al escritor experto.
+                common_args['contextual_summary'] = json.dumps(structured_research, ensure_ascii=False, indent=2)
+                
                 if ctype == 'introduction':
-                    common_args['book_description'] = description
                     content, _ = self.llm_heavy.write_introduction(**common_args)
-                else: # conclusion
-                    common_args['book_description'] = description
+                elif ctype == 'conclusion':
                     content, _ = self.llm_heavy.write_conclusion(**common_args)
-            
-            else: # Fallback para tipos no reconocidos
-                logging.warning(f"No se encontró un escritor especialista para '{ctype}'. Usando el genérico.")
-                context_summary, _ = self.llm_fast.get_contextual_summary(master_context=structured_research, **common_args)
-                common_args['contextual_summary'] = context_summary
-                content, _ = self.llm_heavy.write_chapter(**common_args)
+                else:
+                    logging.warning(f"No se encontró un escritor especialista para '{ctype}'. Usando el genérico.")
+                    content, _ = self.llm_heavy.write_chapter(**common_args)
 
-            if content:
-                # --- VVVV MEJORA DE ROBUSTEZ: "Desempaquetar" el JSON si es necesario VVVV ---
-                try:
-                    # Intenta decodificar el contenido por si la IA devolvió un JSON como string
-                    data = json.loads(content)
-                    # Si tiene una clave 'content' o 'rewritten_chapter', extrae el texto de ahí
-                    if isinstance(data, dict):
-                        if 'content' in data:
-                            logging.warning(f"El agente escritor para '{title}' devolvió un JSON. Extrayendo el contenido.")
-                            content = data['content']
-                        elif 'rewritten_chapter' in data:
-                            logging.warning(f"El agente escritor para '{title}' devolvió un JSON de refactor. Extrayendo el contenido.")
-                            content = data['rewritten_chapter']
-                except (json.JSONDecodeError, TypeError):
-                    # Si falla el parseo, asume que el contenido ya es el texto correcto
-                    pass
-                # --- ^^^^ FIN DE LA MEJORA ^^^^ ---
-
+            if content and isinstance(content, str) and len(content.strip()) > 0:
                 content = self._handle_dynamic_research(content)
                 book_content.append({"title": title, "content": content, "type": ctype})
                 self.workspace.save_chapter(i + 1, title, content)
-                self.state['book_content'] = book_content
-                self.workspace.save_progress(self.state)
             else:
-                logging.warning(f"No se pudo generar contenido para el capítulo '{title}'.")
+                logging.warning(f"No se pudo generar contenido para el capítulo '{title}'. Se guardará como None.")
+                book_content.append({"title": title, "content": None, "type": ctype})
+            
+            # Guardar el progreso después de cada capítulo, incluso si falla
+            self.state['book_content'] = book_content
+            self.workspace.save_progress(self.state)
         
         logging.info("Fase de escritura con especialistas completada exitosamente.")
         return True

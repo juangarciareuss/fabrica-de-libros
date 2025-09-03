@@ -1,0 +1,256 @@
+[
+    {
+        "timestamp": "2025-09-03T15:33:58.308735",
+        "agent_id": "research_web_query_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 1.74,
+            "tokens_used": 269
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:37:59.334058",
+        "agent_id": "research_master_curator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 73.95,
+            "tokens_used": 90722
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:37:59.347209",
+        "agent_id": "structuring_toc_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.0,
+            "tokens_used": 917
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:38:02.715061",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 3.32,
+            "tokens_used": 3001
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:38:16.350109",
+        "agent_id": "writer_introduction",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 13.63,
+            "tokens_used": 1589
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:38:38.146239",
+        "agent_id": "writer_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 21.78,
+            "tokens_used": 2398
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:42:56.236358",
+        "agent_id": "structuring_toc_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.01,
+            "tokens_used": 654
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:47:15.687005",
+        "agent_id": "structuring_toc_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.01,
+            "tokens_used": 654
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:47:20.907551",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 5.22,
+            "tokens_used": 3156
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:47:36.202226",
+        "agent_id": "writer_introduction",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 15.29,
+            "tokens_used": 1766
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:53:15.213866",
+        "agent_id": "research_web_query_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 1.54,
+            "tokens_used": 193
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:57:00.504677",
+        "agent_id": "research_master_curator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 84.78,
+            "tokens_used": 72401
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:57:00.524898",
+        "agent_id": "structuring_toc_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.0,
+            "tokens_used": 654
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:57:19.343009",
+        "agent_id": "writer_introduction",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 18.67,
+            "tokens_used": 4595
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:57:41.789305",
+        "agent_id": "writer_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 22.42,
+            "tokens_used": 2597
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:58:04.811294",
+        "agent_id": "writer_tutorial",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 23.01,
+            "tokens_used": 3527
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:58:24.618440",
+        "agent_id": "writer_comparison",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 19.79,
+            "tokens_used": 2377
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:58:50.279167",
+        "agent_id": "writer_use_cases",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 25.64,
+            "tokens_used": 3140
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:59:17.922479",
+        "agent_id": "writer_generic_fallback",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 27.63,
+            "tokens_used": 5146
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:59:36.564283",
+        "agent_id": "writer_conclusion",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 18.61,
+            "tokens_used": 4477
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:59:41.170070",
+        "agent_id": "critic_generic_fallback",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 4.57,
+            "tokens_used": 1886
+        }
+    },
+    {
+        "timestamp": "2025-09-03T15:59:41.170936",
+        "agent_id": "critic_introduction",
+        "event": "critique_score",
+        "details": {
+            "score_given": 8.5
+        }
+    },
+    {
+        "timestamp": "2025-09-03T16:00:17.111776",
+        "agent_id": "critic_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 4.92,
+            "tokens_used": 2242
+        }
+    },
+    {
+        "timestamp": "2025-09-03T16:00:17.114906",
+        "agent_id": "critic_foundational_knowledge",
+        "event": "critique_score",
+        "details": {
+            "score_given": 7.5
+        }
+    },
+    {
+        "timestamp": "2025-09-03T16:00:29.222906",
+        "agent_id": "critic_tutorial",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 3.93,
+            "tokens_used": 2311
+        }
+    },
+    {
+        "timestamp": "2025-09-03T16:00:29.224926",
+        "agent_id": "critic_practical_tutorial",
+        "event": "critique_score",
+        "details": {
+            "score_given": 7.0
+        }
+    }
+]

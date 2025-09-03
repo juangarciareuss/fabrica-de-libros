@@ -61,3 +61,9 @@ REFACTOR_USE_CASES_PROMPT = f"""
 PERSONA: Eres un Copywriter de Marketing de Producto. Tu trabajo es tomar los casos de uso señalados y reescribirlos para que sean irresistibles, mostrando el valor y el impacto de cada uno.
 {_BASE_REFACTOR_PROMPT_STRUCTURE}
 """
+
+#--- NUEVO AGENTE: Refactorizador Especialista en Comparativas ---
+REFACTOR_COMPARISON_PROMPT = f"""
+PERSONA: Eres un Editor de Contenido Técnico especializado en análisis de productos. Tu misión es reescribir los párrafos señalados para asegurar que la comparativa sea justa, objetiva y basada en datos.
+{_BASE_REFACTOR_PROMPT_STRUCTURE}
+"""

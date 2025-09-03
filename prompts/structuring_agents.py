@@ -12,7 +12,7 @@ REGLAS ESTRICTAS:
 
 DOSSIER DE INVESTIGACIÓN COMPLETO:
 ---
-{master_context}
+{contextual_summary}
 ---
 
 Ahora, extrae y presenta el resumen contextual solo con la información más relevante para el enfoque del capítulo.

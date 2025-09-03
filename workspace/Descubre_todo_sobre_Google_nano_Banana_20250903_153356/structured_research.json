@@ -1,0 +1,167 @@
+{
+    "core_concepts": [
+        {
+            "source": "https://petapixel.com/2025/08/21/is-a-tech-giant-behind-mysterious-ai-image-generator-that-is-cooking-photoshop/",
+            "snippet": "Nano Banana is a mysterious AI model that is currently only available on LMArena, a benchmarking website that lets users rank competing AI models.",
+            "justification": "Defines Nano Banana and its initial availability."
+        },
+        {
+            "source": "https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/",
+            "snippet": "The aforementioned fun-size fruit is in fact the name of a major update to Gemini's AI image generation capabilities. The update is also known as Gemini 2.5 Flash",
+            "justification": "Clarifies the relationship between Nano Banana and Gemini 2.5 Flash."
+        },
+        {
+            "source": "https://www.digitimes.com/news/a20250829PD200/google-deepmind-gemini-adobe-demand.html",
+            "snippet": "Google DeepMind has officially confirmed its advanced image editing AI model, previously known by the codename nano banana, now renamed Gemini 2.5 Flash Image.",
+            "justification": "Official confirmation of the name and developer."
+        },
+        {
+            "source": "https://developers.googleblog.com/en/introducing-gemini-2-5-flash-image/",
+            "snippet": "Today, we’re excited to introduce Gemini 2.5 Flash Image (aka nano-banana), our state-of-the-art image generation and editing model.",
+            "justification": "Official introduction of the model and its purpose."
+        },
+        {
+            "source": "https://www.bgr.com/1950437/google-gemini-flash-image-nano-banana-official/",
+            "snippet": "Google on Tuesday confirmed that Nano-Banana is indeed its next-generation AI image generation model for Gemini.",
+            "justification": "Confirms Google's ownership and the model's purpose."
+        }
+    ],
+    "technical_details": [
+        {
+            "source": "https://www.geeky-gadgets.com/nano-banana-api-ai-image-editing/",
+            "snippet": "Enter the Nano Banana API, a new tool developed by Google that is redefining the boundaries of creativity.",
+            "justification": "Mentions the existence of a Nano Banana API"
+        },
+        {
+            "source": "https://developers.googleblog.com/en/introducing-gemini-2-5-flash-image/",
+            "snippet": "This model is available right now via the Gemini API and Google AI Studio for developers and Vertex AI for enterprise.",
+            "justification": "Specifies platforms where the model is available for developers."
+        },
+        {
+            "source": "https://developers.googleblog.com/en/introducing-gemini-2-5-flash-image/",
+            "snippet": "Gemini 2.5 Flash Image is priced at $30.00 per 1 million output tokens with each image being 1290 output tokens ($0.039 per image).",
+            "justification": "Provides pricing details for developers."
+        },
+        {
+            "source": "https://www.notebookcheck.net/Google-introduces-Gemini-2-5-Flash-Image-nano-banana-with-stronger-edit-consistency.1098007.0.html",
+            "snippet": "Gemini 2.5 Flash Image costs $30 per one million output tokens. Each image counts as 1,290 output tokens, which translates to approximately $0.039 per image.",
+            "justification": "Confirms pricing and token usage."
+        },
+        {
+            "source": "https://github.com/olivierloverde/nano-banana-outfit-shopping",
+            "snippet": "A mobile-first web application that allows users to browse model outfits infinitely, convert them to flat lay using Gemini 2.5 Flash, and shop for individual pieces using AI-powered search capabilities.",
+            "justification": "Describes a technical application using the model."
+        }
+    ],
+    "use_cases": [
+        {
+            "source": "https://petapixel.com/2025/08/21/is-a-tech-giant-behind-mysterious-ai-image-generator-that-is-cooking-photoshop/",
+            "snippet": "Reddit users have praised it for being “the first image generator that can do image consistency with real photos.”",
+            "justification": "Highlights a key use case and user feedback."
+        },
+        {
+            "source": "https://petapixel.com/2025/08/21/is-a-tech-giant-behind-mysterious-ai-image-generator-that-is-cooking-photoshop/",
+            "snippet": "Online accounts and websites including Creative Bloq have speculated whether technology like this could eat into Adobe Photoshop’s stranglehold on the photo editing market.",
+            "justification": "Discusses potential disruption in the photo editing market."
+        },
+        {
+            "source": "https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/",
+            "snippet": "The blog post also highlights that this update is currently sitting at the top of LMArena’s image editing model leaderboard",
+            "justification": "Positions the model as a leader in image editing."
+        },
+        {
+            "source": "https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/",
+            "snippet": "Gemini lets you combine photos to put yourself in a picture with your pet, change the background of a room to preview new wallpaper or place yourself anywhere in the world you can imagine—all while keeping you, you.",
+            "justification": "Lists several practical applications for the model."
+        },
+        {
+            "source": "https://www.geeky-gadgets.com/nano-banana-api-ai-image-editing/",
+            "snippet": "What if you could transform a static image into a dynamic video, seamlessly swap objects in a photo, or even visualize how a design might evolve over decades, all with just a few clicks?",
+            "justification": "Presents potential use cases enabled by the API."
+        },
+        {
+            "source": "https://www.nextpit.com/how-tos/image-ai-make-chatgpt-look-obsolete-with-this-free-app",
+            "snippet": "With Nano Banana, a new, unofficially released AI tool is now preparing to solve these problems. For a few days now, impressive images have been circulating online showing what the tool is capable of.",
+            "justification": "Highlights the tool's problem-solving capabilities and user impressions."
+        },
+        {
+            "source": "https://thoughts.greyh.at/posts/dream-prompter/",
+            "snippet": "Whether you’re creating entirely new images from text descriptions or transforming existing artwork with natural language prompts, it integrates seamlessly into the creative process.",
+            "justification": "Describes how the plugin integrates AI into the creative process."
+        },
+        {
+            "source": "https://www.ndtvprofit.com/technology/google-gemini-nano-banana-artificial-intelligence-ai-photo-images-7-things-you-can-do",
+            "snippet": "Here are seven creative things you can do with Google’s Nano Banana.",
+            "justification": "Lists several creative applications for the model."
+        },
+        {
+            "source": "https://www.geeky-gadgets.com/google-gemini-ai-photo-editor-nano-banana/",
+            "snippet": "Google Gemini’s AI-powered image editor represents a significant leap forward in photo editing technology.",
+            "justification": "Highlights the significance of the technology."
+        },
+        {
+            "source": "https://www.nextpit.com/news/google-image-ai-is-here-and-it-s-a-revolution",
+            "snippet": "Google's AI forge DeepMind just officially unveiled its new AI image processing tool",
+            "justification": "Announces the official unveiling of the tool."
+        },
+        {
+            "source": "https://www.smashingapps.com/google-nano-banana-ai-image-editor/",
+            "snippet": "This post turns the viral demos into concrete, low risk business ideas you can launch this week.",
+            "justification": "Focuses on practical business applications."
+        },
+        {
+            "source": "https://meowgic.art",
+            "snippet": "One-tap styles and custom collages for adorable, consistent pet photos.",
+            "justification": "Presents a specific application for pet photos."
+        },
+        {
+            "source": "https://www.geeky-gadgets.com/gemini-2-5-ai-image-creation-tool/",
+            "snippet": "Imagine describing a bustling cityscape bathed in the golden hues of sunset, and watching as an AI not only generates that scene but also allows you to refine it with effortless, conversational adjustments.",
+            "justification": "Describes a creative use case with conversational adjustments."
+        },
+        {
+            "source": "https://www.geeky-gadgets.com/nano-banana-vs-chatgpt/",
+            "snippet": "This Nano Banana vs ChatGPT 5 comparison explores their capabilities, quirks, and limitations, offering a closer look at how they shape the future of digital creation.",
+            "justification": "Focuses on comparing Nano Banana with ChatGPT Image."
+        }
+    ],
+    "expert_opinions": [],
+    "competitor_comparison": [
+        {
+            "source": "https://petapixel.com/2025/08/21/is-a-tech-giant-behind-mysterious-ai-image-generator-that-is-cooking-photoshop/",
+            "snippet": "with many people wondering if it is a threat to Adobe Photoshop",
+            "justification": "Direct comparison with a major competitor."
+        },
+        {
+            "source": "https://biztoc.com/x/42f385590979d9ed",
+            "snippet": "The tool is part of Google Gemini, offering features similar to Adobe at lower costs.",
+            "justification": "Compares features and costs with Adobe."
+        },
+        {
+            "source": "https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/",
+            "snippet": "Besides smooshing subjects from multiple photos together, giving them all costume changes, and switching up the scenery, the Gemini app now offers multi-turn editing as well.",
+            "justification": "Highlights features not available in other tools."
+        },
+        {
+            "source": "https://www.nextpit.com/how-tos/image-ai-make-chatgpt-look-obsolete-with-this-free-app",
+            "snippet": "Sometimes, I preferred the images of Qwen (a Chinese model) or Flux better, but as a rule of thumb, Nano Banana delivers sensational results.",
+            "justification": "Compares results with other models like Qwen and Flux."
+        },
+        {
+            "source": "https://www.lesswrong.com/posts/hSCDe8wJnxRmRTxfr/ai-131-part-1-gemini-2-5-flash-image-is-cool",
+            "snippet": "Everyone agrees this is now the clear best image editor available. It is solid as an image generator, but only as one among many on that front.",
+            "justification": "Positions the model as the best image editor and compares its image generation capabilities."
+        },
+        {
+            "source": "https://techcrunch.com/2025/08/26/google-geminis-ai-image-model-gets-a-bananas-upgrade/",
+            "snippet": "For instance, ask ChatGPT or xAI’s Grok to change the color of someone’s shirt in a photo, and the result might include a distorted face or an altered background.",
+            "justification": "Directly compares Gemini's capabilities with ChatGPT and Grok."
+        },
+        {
+            "source": "https://www.geeky-gadgets.com/nano-banana-vs-chatgpt/",
+            "snippet": "In one corner, we have Google’s intriguingly named Nano Banana, a model celebrated for its precision and creative prowess. In the other, OpenAI’s ChatGPT Image, a powerhouse in its own right but often criticized for its struggles with human realism and spatial logic.",
+            "justification": "Sets up a comparison between Nano Banana and ChatGPT Image."
+        }
+    ],
+    "future_trends": []
+}
