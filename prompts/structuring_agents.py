@@ -1,5 +1,22 @@
-# (El prompt de CONTEXTUAL_SUMMARY_PROMPT no cambia)
-CONTEXTUAL_SUMMARY_PROMPT = """..."""
+# prompts/structuring_agents.py
+
+CONTEXTUAL_SUMMARY_PROMPT = """
+PERSONA: Eres un Asistente de Investigación de IA. Tu única tarea es leer un gran dossier de investigación y extraer ÚNICAMENTE los fragmentos más relevantes para un capítulo específico.
+
+TAREA: Revisa el siguiente 'Dossier de Investigación Completo' y extrae la información más pertinente para escribir un capítulo enfocado en: '{chapter_focus}'.
+
+REGLAS ESTRICTAS:
+1.  **Enfoque Absoluto:** Extrae solo los fragmentos que se relacionan directamente con el '{chapter_focus}'. Ignora todo lo demás.
+2.  **Formato de Salida:** Devuelve los fragmentos como una lista clara y concisa. No añadas introducciones ni conclusiones, solo los datos en bruto.
+3.  **Mantén la Cita:** Cada fragmento debe conservar su ID de fuente original. Ejemplo: "Nano Banana es un modelo de IA [CITA: 1]".
+
+DOSSIER DE INVESTIGACIÓN COMPLETO:
+---
+{master_context}
+---
+
+Ahora, extrae y presenta el resumen contextual solo con la información más relevante para el enfoque del capítulo.
+"""
 
 # 4. Agente Arquitecto de Contenidos (REGLAS DE TÍTULO MEJORADAS)
 TOC_GENERATION_PROMPT = """

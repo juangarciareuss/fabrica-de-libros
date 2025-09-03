@@ -1,116 +1,122 @@
-# book_generator/phase_research.py
+# book_generator/researcher.py
 
 import logging
-import sys
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import quote_plus
+import feedparser
 import config
-from .llm_handler import LLMHandler
-from .researcher import research, get_text_from_url
 
-class PhaseResearch:
-    """Gestiona la fase de investigación: búsqueda, pre-selección y curación."""
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# --- CAPA 1: RSS DE GOOGLE NOTICIAS ---
+def get_google_news_rss(query):
+    """Obtiene URLs desde el feed RSS de Google Noticias."""
+    urls = set()
+    try:
+        # Formato de la URL del feed RSS de Google Noticias
+        url = f"https://news.google.com/rss/search?q={quote_plus(query)}&hl=es-419&gl=US&ceid=US:es-419"
+        logging.info(f"  -> [RSS] Consultando Google Noticias para: '{query}'")
+        feed = feedparser.parse(url)
+        for entry in feed.entries:
+            urls.add(entry.link)
+    except Exception as e:
+        logging.error(f"Error al procesar el feed RSS de Google Noticias: {e}")
+    return list(urls)
+
+# --- CAPA 2: NEWSAPI (REQUIERE CLAVE) ---
+def get_newsapi(query):
+    """Obtiene URLs desde NewsAPI. Requiere una API Key."""
+    if not config.NEWSAPI_KEY:
+        logging.warning("No se proporcionó una clave para NewsAPI. Omitiendo esta fuente.")
+        return []
     
-    def __init__(self, state, workspace, performance_logger, agent_manifest):
-        self.state = state
-        self.workspace = workspace
-        self.performance_logger = performance_logger
-        self.agent_manifest = agent_manifest
-        
-        # Pasamos el logger y manifest al handler para que pueda registrar el desempeño
-        self.llm_fast = LLMHandler(
-            api_key=config.API_KEY, 
-            model_name=config.FAST_MODEL_NAME,
-            performance_logger=self.performance_logger,
-            agent_manifest=self.agent_manifest
-        )
+    urls = set()
+    try:
+        # Documentación: https://newsapi.org/docs/endpoints/everything
+        url = f"https://newsapi.org/v2/everything?q={quote_plus(query)}&apiKey={config.NEWSAPI_KEY}&language=es&sortBy=relevancy"
+        logging.info(f"  -> [API] Consultando NewsAPI para: '{query}'")
+        response = requests.get(url)
+        response.raise_for_status()
+        articles = response.json().get("articles", [])
+        for article in articles:
+            urls.add(article['url'])
+    except Exception as e:
+        logging.error(f"Error al consultar NewsAPI: {e}")
+    return list(urls)
+    
+# --- CAPA 3: RSS DE MEDIOS ESPECÍFICOS ---
+def parse_specific_feeds(queries):
+    """Obtiene URLs desde una lista predefinida de feeds RSS de medios de tecnología."""
+    custom_feeds = {
+        "Wired_ES": "https://www.wired.es/rss",
+        "Xataka": "https://www.xataka.com/feed",
+        "Genbeta": "https://www.genbeta.com/feed",
+        "Hipertextual": "https://hipertextual.com/feed"
+    }
+    urls = set()
+    logging.info("  -> [RSS] Consultando feeds de medios específicos...")
+    
+    for name, url in custom_feeds.items():
+        try:
+            feed = feedparser.parse(url)
+            for entry in feed.entries:
+                # Comprueba si alguna de las palabras clave de la consulta está en el título
+                if any(q.lower() in entry.title.lower() for q in queries):
+                    urls.add(entry.link)
+        except Exception as e:
+            logging.error(f"Error al procesar el feed RSS de '{name}': {e}")
+    return list(urls)
 
-    def _get_titles_for_urls(self, urls):
-        """Intenta extraer un título simple de una lista de URLs."""
-        with_titles = []
-        for url in urls:
-            try:
-                title = url.split('/')[-1].replace('-', ' ').replace('_', ' ').title()
-                if not title or len(title) < 5: title = "Artículo Relacionado"
-                with_titles.append({"url": url, "title": title})
-            except Exception:
-                continue
-        return with_titles
+# --- FUNCIÓN PRINCIPAL DE INVESTIGACIÓN ---
+def research(queries):
+    """
+    Orquesta la recolección de URLs desde múltiples capas de fuentes.
+    """
+    logging.info(f"Iniciando investigación multi-capa para {len(queries)} consultas...")
+    all_urls = set()
 
-    def execute(self):
-        logging.info("\n--- [FASE 1] RECOLECCIÓN Y PRE-SELECCIÓN ---")
-        topic = self.state["core_topic"]
-        description = self.state["description"]
-        domain = self.state["domain"]
+    for query in queries:
+        # Capa 1: Google News RSS
+        all_urls.update(get_google_news_rss(query))
         
-        web_queries_plan, _ = self.llm_fast.generate_web_queries(topic=topic, description=description)
-        queries = web_queries_plan.get('queries', [topic]) if web_queries_plan else [topic]
-        
-        print("\n--- [PASO 1 de 3] REVISIÓN DE BÚSQUEDA ---")
-        print(f"La IA ha generado estas consultas: {queries}")
-        if input("¿Añadir más términos de búsqueda? (s/n): ").lower() == 's':
-            extra_query = input("Añade tus términos, separados por comas: ")
-            queries.extend([q.strip() for q in extra_query.split(',')])
-            logging.info(f"Consultas actualizadas: {queries}")
-            
-        found_links = research(queries)
-        links_with_titles = self._get_titles_for_urls(found_links)
-        
-        preselected_urls, _ = self.llm_fast.preselect_urls(topic=topic, domain=domain, found_links_with_titles=links_with_titles)
-        if not preselected_urls:
-            logging.error("El agente pre-selector no pudo elegir ninguna URL.")
-            return False
-        
-        web_content_map = {link: get_text_from_url(link) for link in preselected_urls if get_text_from_url(link)}
-        youtube_transcript = self.workspace.read_youtube_transcript()
-        
-        full_content = "\n".join(web_content_map.values()) + f"\n{youtube_transcript}"
-        if not full_content.strip():
-            logging.error("No se pudo recolectar contenido de las fuentes.")
-            return False
+        # Capa 2: NewsAPI
+        all_urls.update(get_newsapi(query))
+    
+    # Capa 3: Feeds Específicos (se ejecuta una vez con todas las queries como keywords)
+    all_urls.update(parse_specific_feeds(queries))
 
-        # --- LÓGICA DE PROCESAMIENTO POR LOTES (CHUNKING) ---
-        chunk_size = 30000
-        content_chunks = [full_content[i:i + chunk_size] for i in range(0, len(full_content), chunk_size)]
-        logging.info(f"El contenido de la investigación se ha dividido en {len(content_chunks)} lotes para ser procesado.")
+    logging.info(f"Investigación multi-capa completada. Se encontraron {len(all_urls)} URLs únicas.")
+    return list(all_urls)
 
-        final_structured_research = {
-            "core_concepts": [], "technical_details": [], "use_cases": [],
-            "expert_opinions": [], "competitor_comparison": [], "future_trends": []
-        }
+# --- FUNCIÓN PARA EXTRAER CONTENIDO (CORREGIDA) ---
+def get_text_from_url(url_input):
+    """Extrae el texto principal de una URL, aceptando un string o un dict."""
+    # --- VVVV LÓGICA DE ROBUSTEZ AÑADIDA VVVV ---
+    if isinstance(url_input, dict):
+        url = url_input.get('url')
+    else:
+        url = url_input
 
-        for i, chunk in enumerate(content_chunks):
-            logging.info(f"Procesando lote {i+1}/{len(content_chunks)} con el Curador Maestro...")
-            chunk_research, raw_response_text = self.llm_fast.curate_and_structure_research(topic=topic, full_content_for_analysis=chunk)
-            
-            if not chunk_research:
-                logging.warning(f"El Curador Maestro falló al procesar el lote {i+1}. Se continuará con el siguiente.")
-                print("\n--- RESPUESTA EN BRUTO DEL LOTE FALLIDO ---")
-                print(raw_response_text)
-                print("--- FIN DE LA RESPUESTA ---")
-                continue
+    if not url or not isinstance(url, str):
+        logging.error(f"Se recibió una entrada no válida para la extracción de URL: {url_input}")
+        return None
+    # --- ^^^^ FIN DE LA LÓGICA AÑADIDA ^^^^ ---
 
-            for key, value in chunk_research.items():
-                if key in final_structured_research and isinstance(value, list):
-                    final_structured_research[key].extend(value)
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'}
+        response = requests.get(url, headers=headers, timeout=20, allow_redirects=True)
+        response.raise_for_status()
         
-        if not final_structured_research or not any(final_structured_research.values()):
-            logging.error("El Curador Maestro no pudo extraer y estructurar el contenido de ningún lote.")
-            return False
-
-        structured_research = final_structured_research
-        self.workspace.save_structured_research(structured_research)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        for tag in soup(['script', 'style', 'nav', 'footer', 'header', 'aside']):
+            tag.decompose()
         
-        # Lógica de aplanamiento de datos para compatibilidad con la bibliografía
-        all_snippets = []
-        if isinstance(structured_research, dict):
-            for category_list in structured_research.values():
-                if isinstance(category_list, list):
-                    all_snippets.extend(category_list)
-
-        self.state["research_catalog"] = [{"id": i + 1, "url": s.get('source', ''), "title": f"Fragmento #{i+1}", "content": s.get('snippet', '')} for i, s in enumerate(all_snippets)]
-        self.state["youtube_transcript"] = youtube_transcript
-        self.state["curated_sources"] = all_snippets
-
-        self.workspace.save_progress(self.state)
-        
-        logging.info("Fase de investigación completada exitosamente.")
-        return True
+        main_content = soup.find('article') or soup.find('main') or soup.body
+        if main_content:
+            text_content = ' '.join(p.get_text(strip=True) for p in main_content.find_all('p'))
+            return text_content if len(text_content) > 200 else None
+        return None
+    except Exception as e:
+        logging.error(f"Error al procesar la URL {url}: {e}")
+        return None

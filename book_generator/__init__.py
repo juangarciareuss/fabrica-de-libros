@@ -1,3 +1,7 @@
-# Este archivo puede estar vacío.
-# Su presencia le indica a Python que 'book_generator' es un paquete
-# desde el cual podemos importar módulos.
+# book_generator/__init__.py
+
+"""
+Este archivo inicializa el paquete 'book_generator' y expone sus clases principales,
+ayudando a prevenir errores de importación circular al pre-cargar los componentes.
+"""
+

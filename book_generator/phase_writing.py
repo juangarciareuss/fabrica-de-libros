@@ -39,36 +39,18 @@ class PhaseWriting:
         
         table_of_contents, _ = self.llm_fast.generate_table_of_contents(topic=topic, book_description=description)
         if not table_of_contents:
-            logging.error("Fallo en la arquitectura: no se pudo generar la tabla de contenidos.")
-            return False
+            return False # Simplificado
         
         self.state["table_of_contents"] = table_of_contents
-        
         structured_research = self.workspace.load_structured_research()
         if not structured_research:
-            logging.error("No se encontró la investigación estructurada. No se puede escribir.")
-            return False
+            return False # Simplificado
 
-        # <<< OPTIMIZACIÓN: "Dispatch Table" de Especialistas >>>
-        # Este diccionario mapea el tipo de capítulo al agente escritor y al contexto que necesita.
         writer_specialists = {
-            'foundational_knowledge': {
-                'method': self.llm_heavy.write_foundational_chapter,
-                'context_keys': ['core_concepts', 'technical_details']
-            },
-            'practical_tutorial': {
-                'method': self.llm_heavy.write_practical_tutorial_chapter,
-                'context_keys': ['use_cases', 'technical_details']
-            },
-            'extended_use_cases': {
-                'method': self.llm_heavy.write_use_cases_chapter,
-                'context_keys': ['use_cases']
-            },
-            'competitor_comparison': {
-                'method': self.llm_heavy.write_comparison_chapter,
-                'context_keys': ['competitor_comparison', 'expert_opinions']
-            }
-            # Añadir nuevos especialistas aquí es tan simple como añadir una nueva entrada
+            'foundational_knowledge': {'method': self.llm_heavy.write_foundational_chapter, 'context_keys': ['core_concepts', 'technical_details']},
+            'practical_tutorial': {'method': self.llm_heavy.write_practical_tutorial_chapter, 'context_keys': ['use_cases', 'technical_details']},
+            'extended_use_cases': {'method': self.llm_heavy.write_use_cases_chapter, 'context_keys': ['use_cases']},
+            'competitor_comparison': {'method': self.llm_heavy.write_comparison_chapter, 'context_keys': ['competitor_comparison', 'expert_opinions']}
         }
 
         book_content = self.state.get("book_content", [])
@@ -86,7 +68,11 @@ class PhaseWriting:
             logging.info(f"Asignando capítulo {i+1}/{len(table_of_contents)}: '{title}' (Tipo: '{ctype}')")
             
             content = None
-            
+            common_args = {
+                "book_topic": topic, "chapter_title": title, "chapter_focus": focus, 
+                "topics_to_avoid": topics_to_avoid, "chapter_type": ctype
+            }
+
             # --- LÓGICA DE DELEGACIÓN OPTIMIZADA ---
             specialist = writer_specialists.get(ctype)
 
@@ -122,6 +108,23 @@ class PhaseWriting:
                 content, _ = self.llm_heavy.write_chapter(**common_args)
 
             if content:
+                # --- VVVV MEJORA DE ROBUSTEZ: "Desempaquetar" el JSON si es necesario VVVV ---
+                try:
+                    # Intenta decodificar el contenido por si la IA devolvió un JSON como string
+                    data = json.loads(content)
+                    # Si tiene una clave 'content' o 'rewritten_chapter', extrae el texto de ahí
+                    if isinstance(data, dict):
+                        if 'content' in data:
+                            logging.warning(f"El agente escritor para '{title}' devolvió un JSON. Extrayendo el contenido.")
+                            content = data['content']
+                        elif 'rewritten_chapter' in data:
+                            logging.warning(f"El agente escritor para '{title}' devolvió un JSON de refactor. Extrayendo el contenido.")
+                            content = data['rewritten_chapter']
+                except (json.JSONDecodeError, TypeError):
+                    # Si falla el parseo, asume que el contenido ya es el texto correcto
+                    pass
+                # --- ^^^^ FIN DE LA MEJORA ^^^^ ---
+
                 content = self._handle_dynamic_research(content)
                 book_content.append({"title": title, "content": content, "type": ctype})
                 self.workspace.save_chapter(i + 1, title, content)

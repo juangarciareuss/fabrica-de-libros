@@ -1,3 +1,0 @@
-# Reflexiones Finales
-
-None

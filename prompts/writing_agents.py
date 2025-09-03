@@ -28,7 +28,8 @@ ESTRUCTURA OBLIGATORIA:
 3.  **La Revelación:** Presenta a "{book_topic}" como un cambio de paradigma.
 4.  **La Promesa:** Describe la estructura del libro como un camino de descubrimiento.
 
-Ahora, escribe el contenido completo de la introducción en formato Markdown.
+FORMATO DE SALIDA (ESTRICTO):
+Tu respuesta DEBE ser únicamente el texto completo del capítulo en formato Markdown. NO incluyas el título (ya lo conozco). NO envuelvas tu respuesta en un objeto JSON, ni uses ```json o ```markdown. Tu respuesta debe empezar directamente con el primer párrafo del capítulo.
 """
 
 # --- Agente de Conclusión ---

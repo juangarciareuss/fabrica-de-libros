@@ -12,6 +12,7 @@ from prompts import writing_agents, research_agents, structuring_agents, critic_
 
 CACHE_DIR = "cache"
 
+# ... (el resto de las funciones get_cache_filename y parse_json_from_response no cambian) ...
 def get_cache_filename(text_input):
     """Genera un nombre de archivo de caché basado en el hash del input."""
     return os.path.join(CACHE_DIR, f"{hashlib.md5(text_input.encode()).hexdigest()}.json")
@@ -32,6 +33,7 @@ def parse_json_from_response(text):
     except (json.JSONDecodeError, IndexError):
         return None
 
+
 class LLMHandler:
     def __init__(self, api_key, model_name, performance_logger, agent_manifest):
         genai.configure(api_key=api_key)
@@ -42,6 +44,7 @@ class LLMHandler:
         logging.info(f"Modelo {model_name} inicializado.")
 
     def _call_gemini_with_retry(self, prompt, is_json_output=False, max_retries=3):
+        # ... (esta función no necesita cambios) ...
         os.makedirs(CACHE_DIR, exist_ok=True)
         cache_file = get_cache_filename(prompt)
         if os.path.exists(cache_file):
@@ -91,13 +94,11 @@ class LLMHandler:
         
         logging.critical("No se pudo obtener respuesta de la API.")
         return None, None
-
-
+        
     def get_token_usage(self):
         return self.token_usage
 
-# book_generator/llm_handler.py
-
+    # --- FUNCIÓN CRÍTICA A REEMPLAZAR ---
     def _execute_agent_call(self, agent_id, prompt_template, is_json_output=False, **kwargs):
         """
         Método genérico para ejecutar cualquier agente y registrar su rendimiento.
@@ -106,30 +107,29 @@ class LLMHandler:
         agent_role = agent_info.get('role', agent_id)
         logging.info(f"   -> [Activando] {agent_role}...")
 
-        # --- VVVV LÓGICA DE TRADUCCIÓN DE CONTEXTO CORREGIDA Y MEJORADA VVVV ---
-        
-        # Para los escritores especialistas que envían 'context'
+        # --- VVVV LÓGICA DE TRADUCCIÓN DE CONTEXTO OPTIMIZADA VVVV ---
+        # Usamos un método de serialización compacto para ahorrar tokens
+        compact_json_serializer = lambda data: json.dumps(data, separators=(',', ':'), ensure_ascii=False)
+
         if 'context' in kwargs:
-            # Renombramos la clave a 'contextual_summary' que es la que esperan los prompts
-            kwargs['contextual_summary'] = json.dumps(kwargs.pop('context'), indent=2, ensure_ascii=False)
-        
-        # Para agentes más antiguos o genéricos que puedan usar 'master_context'
+            kwargs['contextual_summary'] = compact_json_serializer(kwargs.pop('context'))
         elif 'master_context' in kwargs:
-            # También lo renombramos a 'contextual_summary'
-            kwargs['contextual_summary'] = json.dumps(kwargs.pop('master_context'), indent=2, ensure_ascii=False)
-        
-        # Para el agente de resumen que ya usa 'contextual_summary' pero necesita ser string
+            kwargs['contextual_summary'] = compact_json_serializer(kwargs.pop('master_context'))
         elif 'contextual_summary' in kwargs and not isinstance(kwargs['contextual_summary'], str):
-            kwargs['contextual_summary'] = json.dumps(kwargs['contextual_summary'], indent=2, ensure_ascii=False)
-        
-        # --- ^^^^ FIN DE LA LÓGICA CORREGIDA ^^^^ ---
+            kwargs['contextual_summary'] = compact_json_serializer(kwargs['contextual_summary'])
+        # --- ^^^^ FIN DE LA LÓGICA OPTIMIZADA ^^^^ ---
 
         if 'topics_to_avoid' in kwargs:
             topics = kwargs['topics_to_avoid']
             kwargs['forbidden_topics_clause'] = writing_agents.FORBIDDEN_TOPICS_CLAUSE.format(topics_to_avoid=topics) if topics else ""
 
-        prompt = prompt_template.format(**kwargs)
-        
+        try:
+            prompt = prompt_template.format(**kwargs)
+        except KeyError as e:
+            logging.critical(f"Error FATAL al formatear el prompt para el agente '{agent_id}'. Falta la clave: {e}")
+            logging.error(f"Argumentos disponibles: {list(kwargs.keys())}")
+            return None, f"Error de formato de prompt: Falta la clave {e}"
+
         start_time = time.time()
         tokens_before = self.token_usage['total']
         parsed_response, raw_text = self._call_gemini_with_retry(prompt, is_json_output)
@@ -146,7 +146,8 @@ class LLMHandler:
             
         return parsed_response, raw_text
 
-  # --- AGENTES (Llamadas consistentes al "motor" con su ID) ---
+    # ... (El resto de los métodos de la clase LLMHandler no cambian) ...
+    # --- AGENTES (Llamadas consistentes al "motor" con su ID) ---
 
     def generate_web_queries(self, **kwargs):
         return self._execute_agent_call("research_web_query_generator", research_agents.WEB_QUERY_GENERATOR_PROMPT, True, **kwargs)

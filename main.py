@@ -5,6 +5,10 @@ import logging
 import json
 import os
 import shutil
+
+# Añade el directorio actual al path de Python para que encuentre el paquete book_generator
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from book_generator.orchestrator import BookOrchestrator
 from book_generator.workspace_manager import WorkspaceManager
 from utils import clear_directory, display_usage_summary
@@ -41,10 +45,12 @@ def clear_previous_project(meta_data):
 
 def main():
     print("------------------------------------------------------------------")
-    print("🤖 Fábrica de Libros v44.1 - Reseteo Forzado ⚙️")
+    print("🤖 Fábrica de Libros v45.4 - Estructura Corregida ⚙️")
     print("------------------------------------------------------------------")
 
     last_meta = load_last_run_meta()
+    queries_from_previous_run = None
+
     if last_meta:
         print("\n--- Se encontró un proyecto anterior ---")
         print(f"  - TEMA: {last_meta.get('topic')}")
@@ -57,16 +63,22 @@ def main():
             
             if latest_workspace:
                 orchestrator = BookOrchestrator(core_topic, "", "", [], workspace_path=latest_workspace)
-                loaded_state = orchestrator.workspace.load_progress()
-                if loaded_state:
-                    orchestrator.resume(loaded_state)
-                else:
-                    logging.error("El directorio de trabajo existe pero no se pudo cargar 'progress.json'. No se puede reanudar.")
+                orchestrator.resume(workspace_path=latest_workspace)
             else:
                 logging.error("No se encontró el directorio de trabajo para este proyecto. No se puede reanudar.")
             return
-
         else:
+            if input("\n¿Reutilizar las consultas de búsqueda del proyecto anterior? (s/n): ").lower() == 's':
+                latest_workspace = WorkspaceManager.find_latest_workspace(last_meta.get('topic'))
+                if latest_workspace:
+                    progress_file = os.path.join(latest_workspace, "progress.json")
+                    if os.path.exists(progress_file):
+                        with open(progress_file, 'r', encoding='utf-8') as f:
+                            progress_data = json.load(f)
+                            queries_from_previous_run = progress_data.get("web_queries")
+                            if queries_from_previous_run:
+                                logging.info(f"Consultas recuperadas: {queries_from_previous_run}")
+
             clear_previous_project(last_meta)
     
     logging.info("\n--- Iniciando un nuevo proyecto de libro desde cero ---")
@@ -84,7 +96,8 @@ def main():
     topics_to_avoid = [t.strip() for t in topics_to_avoid_str.split(',') if t.strip()]
 
     save_last_run_meta(core_topic, description, domain, topics_to_avoid)
-    orchestrator = BookOrchestrator(core_topic, description, domain, topics_to_avoid)
+    
+    orchestrator = BookOrchestrator(core_topic, description, domain, topics_to_avoid, initial_queries=queries_from_previous_run)
     
     try:
         fast_handler, heavy_handler = orchestrator.run()

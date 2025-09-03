@@ -88,8 +88,19 @@ def research(queries):
     return list(all_urls)
 
 # --- FUNCIÓN PARA EXTRAER CONTENIDO (SIN CAMBIOS) ---
-def get_text_from_url(url):
-    """Extrae el texto principal de una URL."""
+def get_text_from_url(url_input):
+    """Extrae el texto principal de una URL, aceptando un string o un dict."""
+    # --- VVVV LÓGICA DE ROBUSTEZ AÑADIDA VVVV ---
+    if isinstance(url_input, dict):
+        url = url_input.get('url')
+    else:
+        url = url_input
+
+    if not url or not isinstance(url, str):
+        logging.error(f"Se recibió una entrada no válida para la extracción de URL: {url_input}")
+        return None
+    # --- ^^^^ FIN DE LA LÓGICA AÑADIDA ^^^^ ---
+
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'}
         response = requests.get(url, headers=headers, timeout=20, allow_redirects=True)
