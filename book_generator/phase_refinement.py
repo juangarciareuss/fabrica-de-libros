@@ -7,7 +7,8 @@ from .llm_handler import LLMHandler
 
 class PhaseRefinement:
     """
-    Gestiona un ciclo completo de crítica y reescritura del borrador.
+    Gestiona un ciclo completo de crítica y reescritura del borrador, optimizado
+    para un consumo mínimo de tokens y máxima mantenibilidad.
     """
     def __init__(self, state, workspace, performance_logger, agent_manifest):
         self.state = state
@@ -23,68 +24,67 @@ class PhaseRefinement:
         self.llm_heavy = LLMHandler(config.API_KEY, config.HEAVY_MODEL_NAME, **handler_args)
 
     def _get_critique_for_chapter(self, chapter):
-        """Llama al crítico especialista adecuado para un capítulo."""
+        """Llama al crítico especialista adecuado usando el despachador de agentes."""
         ctype = chapter.get('type')
         logging.info(f" -> Asignando '{chapter['title']}' (Tipo: {ctype}) al crítico especialista...")
 
-        critique_functions = {
-            'practical_tutorial': self.llm_fast.critique_tutorial_chapter,
-            'foundational_knowledge': self.llm_fast.critique_foundational_chapter,
-            'extended_use_cases': self.llm_fast.critique_use_cases_chapter,
-            'competitor_comparison': self.llm_fast.critique_comparison_chapter
+        agent_map = {
+            'practical_tutorial': 'critic_tutorial',
+            'foundational_knowledge': 'critic_foundational',
+            'extended_use_cases': 'critic_use_cases',
+            'competitor_comparison': 'critic_comparison'
         }
-        
-        critique_func = critique_functions.get(ctype, self.llm_fast.critique_chapter)
-        if ctype not in critique_functions:
-            logging.warning(f"No se encontró un crítico especialista para '{ctype}'. Usando el genérico.")
+        agent_id = agent_map.get(ctype, 'critic_generic_fallback')
 
-        return critique_func(chapter_title=chapter['title'], chapter_text=chapter['content'])
+        return self.llm_fast.call_agent(agent_id, chapter_title=chapter['title'], chapter_text=chapter['content'])
 
     def _refactor_chapter(self, chapter, report):
-        """Llama al refactorizador especialista adecuado para un capítulo."""
+        """
+        Llama al refactorizador especialista adecuado sin contexto de investigación
+        para máxima eficiencia de costos.
+        """
         ctype = chapter.get('type')
         logging.info(f" -> Refactorizando '{chapter['title']}' con especialista (Tipo: {ctype})...")
+
+        agent_map = {
+            'practical_tutorial': 'refactor_tutorial',
+            'foundational_knowledge': 'refactor_foundational',
+            'extended_use_cases': 'refactor_use_cases',
+            'competitor_comparison': 'refactor_comparison'
+        }
+        agent_id = agent_map.get(ctype, 'refactor_generic_fallback')
 
         refactor_args = {
             "chapter_title": chapter['title'],
             "original_content": chapter['content'],
             "critique_feedback": json.dumps(report.get('paragraph_critiques', []), indent=2, ensure_ascii=False),
             "user_feedback": report.get('user_feedback', 'N/A'),
-            "contextual_summary": self.state.get("research_catalog", {}),
             "topics_to_avoid": self.state.get("topics_to_avoid", [])
         }
-
-        refactor_functions = {
-            'practical_tutorial': self.llm_heavy.refactor_tutorial_chapter,
-            'foundational_knowledge': self.llm_heavy.refactor_foundational_chapter,
-            'extended_use_cases': self.llm_heavy.refactor_use_cases_chapter,
-            'competitor_comparison': self.llm_heavy.refactor_comparison_chapter
-        }
-
-        refactor_func = refactor_functions.get(ctype, self.llm_heavy.refactor_chapter)
-        if ctype not in refactor_functions:
-            logging.warning(f"No se encontró un refactorizador especialista para '{ctype}'. Usando el genérico.")
-
-        return refactor_func(**refactor_args)
+        
+        return self.llm_heavy.call_agent(agent_id, **refactor_args)
 
     def execute(self):
-        logging.info("\n--- [FASE 3] REFINAMIENTO DEL BORRADOR CON ESPECIALISTAS ---")
+        logging.info("\n--- [FASE 4] REFINAMIENTO INTERACTIVO ---")
         
+        book_content = self.state.get("book_content", [])
+        if not book_content:
+            logging.warning("No se encontró contenido de libro para refinar. Saltando fase.")
+            return True
+
         print("\n" + "="*80)
-        logging.info("INICIANDO UN CICLO COMPLETO DE REVISIÓN Y REFACTORIZACIÓN")
+        logging.info("INICIANDO CICLO DE REFINAMIENTO COMPLETO")
         print("="*80)
         
-        book_content = self.state["book_content"]
         chapters_to_refine = []
         
-        # --- PASO 1: RONDA DE CRÍTICA OBLIGATORIA ---
-        print("\n--- [PASO 3.1] RONDA DE REVISIÓN EDITORIAL ---")
+        print("\n--- [PASO 4.1] RONDA DE REVISIÓN EDITORIAL ---")
         for i, chapter in enumerate(book_content):
             if not chapter.get('content') or not isinstance(chapter.get('content'), str) or len(chapter.get('content').strip()) < 50:
                 logging.warning(f"Saltando crítica de '{chapter.get('title', 'N/A')}' por falta de contenido.")
                 continue
 
-            print(f"\n[DIAGNÓSTICO] Llamando al agente crítico para el capítulo {i+1}...")
+            print(f"\n[DIAGNÓSTICO] Llamando al agente crítico para el capítulo {i+1}: '{chapter.get('title', 'N/A')}'...")
             critique, _ = self._get_critique_for_chapter(chapter)
             if not critique:
                 logging.warning(f"El crítico no devolvió feedback para '{chapter.get('title', 'N/A')}'.")
@@ -101,11 +101,10 @@ class PhaseRefinement:
                 logging.info(f"'{chapter.get('title', 'N/A')}' MARCADO para refactorización.")
                 chapters_to_refine.append((i, critique))
         
-        # --- PASO 2: DECISIÓN Y REFACTORIZACIÓN ---
         if not chapters_to_refine:
             logging.info("\n🎉 ¡PROCESO DE REVISIÓN FINALIZADO! Ningún capítulo fue marcado para mejoras.")
         else:
-            print("\n--- [PASO 3.2] APLICANDO MEJORAS DE REFACTORIZACIÓN ---")
+            print("\n--- [PASO 4.2] APLICANDO MEJORAS DE REFACTORIZACIÓN ---")
             logging.info(f"Se refinarán {len(chapters_to_refine)} capítulos.")
             
             for index, report in chapters_to_refine:
@@ -120,5 +119,5 @@ class PhaseRefinement:
                 else:
                     logging.error(f"El refactorizador no pudo mejorar el capítulo '{chapter_to_refactor['title']}'.")
 
-        logging.info("\nFase de refinamiento completada exitosamente.")
+        logging.info("\n✅ Fase de refinamiento completada exitosamente.")
         return True

@@ -108,6 +108,14 @@ class WorkspaceManager:
             logging.warning(f"No se encontró el archivo de transcripción '{filepath}'. Se continuará sin él.")
             return ""
 
+    def check_if_final_book_exists(self):
+        """
+        Comprueba si los archivos finales del libro (DOCX o EPUB) ya existen en el workspace.
+        """
+        docx_path = os.path.join(self.workspace_dir, f"{self.safe_title}_FINAL_LIMPIO.docx")
+        epub_path = os.path.join(self.workspace_dir, f"{self.safe_title}.epub")
+        return os.path.exists(docx_path) or os.path.exists(epub_path)
+
     def assemble_and_export(self, book_content, curated_sources):
         logging.info("\n--- [FASE FINAL] ENSAMBLAJE Y EXPORTACIÓN ---")
         

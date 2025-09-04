@@ -1,16 +1,15 @@
 # book_generator/phase_writing.py
 
 import logging
-import sys
 import json
 import config
-import re
 from .llm_handler import LLMHandler
-from .researcher import research, get_text_from_url
 
 class PhaseWriting:
-    """Gestiona la escritura del borrador delegando a especialistas y manejando investigación dinámica."""
-    
+    """
+    Gestiona la escritura del borrador delegando a especialistas y utilizando un
+    filtro de contexto para optimizar el consumo de tokens.
+    """
     def __init__(self, state, workspace, performance_logger, agent_manifest):
         self.state = state
         self.workspace = workspace
@@ -24,10 +23,6 @@ class PhaseWriting:
         self.llm_fast = LLMHandler(config.API_KEY, config.FAST_MODEL_NAME, **handler_args)
         self.llm_heavy = LLMHandler(config.API_KEY, config.HEAVY_MODEL_NAME, **handler_args)
 
-    def _handle_dynamic_research(self, chapter_content):
-        # Esta función está pendiente de implementación, por ahora solo devuelve el contenido.
-        return chapter_content
-
     def execute(self):
         logging.info("\n--- [FASE 2] ESTRUCTURA Y ESCRITURA CON ESPECIALISTAS ---")
         topic = self.state["core_topic"]
@@ -35,7 +30,9 @@ class PhaseWriting:
         topics_to_avoid = self.state["topics_to_avoid"]
         
         if not self.state.get("table_of_contents"):
-            table_of_contents, _ = self.llm_fast.generate_table_of_contents(
+            logging.info("No se encontró tabla de contenidos. Generando una nueva...")
+            table_of_contents, _ = self.llm_fast.call_agent(
+                "structuring_toc_generator",
                 topic=topic, 
                 book_description=description
             )
@@ -50,13 +47,6 @@ class PhaseWriting:
             logging.error("No se encontró la investigación estructurada. Abortando fase de escritura.")
             return False
 
-        writer_specialists = {
-            'foundational_knowledge': {'method': self.llm_heavy.write_foundational_chapter, 'context_keys': ['core_concepts', 'technical_details']},
-            'practical_tutorial': {'method': self.llm_heavy.write_practical_tutorial_chapter, 'context_keys': ['use_cases', 'technical_details']},
-            'extended_use_cases': {'method': self.llm_heavy.write_use_cases_chapter, 'context_keys': ['use_cases']},
-            'competitor_comparison': {'method': self.llm_heavy.write_comparison_chapter, 'context_keys': ['competitor_comparison', 'expert_opinions']}
-        }
-
         book_content = self.state.get("book_content", [])
         start_chapter_index = len(book_content)
 
@@ -68,49 +58,51 @@ class PhaseWriting:
             if i < start_chapter_index:
                 continue
 
-            title, ctype, focus = chapter_data.get('title'), chapter_data.get('chapter_type'), chapter_data.get('focus')
-            logging.info(f"Asignando capítulo {i+1}/{len(table_of_contents)}: '{title}' (Tipo: '{ctype}')")
+            title = chapter_data.get('title')
+            ctype = chapter_data.get('chapter_type')
+            focus = chapter_data.get('focus')
             
-            content = None
+            logging.info(f"Procesando capítulo {i+1}/{len(table_of_contents)}: '{title}' (Tipo: '{ctype}')")
+            
+            logging.info(f"  -> Activando Filtro de Contexto Inteligente para el enfoque: '{focus}'")
+            contextual_summary, _ = self.llm_fast.call_agent(
+                "structuring_context_summarizer",
+                chapter_focus=focus,
+                contextual_summary=json.dumps(structured_research, ensure_ascii=False)
+            )
+            if not contextual_summary:
+                logging.warning("El Filtro de Contexto no devolvió información. Se usará el dossier completo como fallback.")
+                contextual_summary = json.dumps(structured_research, ensure_ascii=False)
+
+            agent_map = {
+                'introduction': 'writer_introduction',
+                'conclusion': 'writer_conclusion',
+                'foundational_knowledge': 'writer_foundational',
+                'practical_tutorial': 'writer_tutorial',
+                'extended_use_cases': 'writer_use_cases',
+                'competitor_comparison': 'writer_comparison'
+            }
+            agent_id = agent_map.get(ctype, 'writer_generic_fallback')
+
             common_args = {
                 "book_topic": topic, 
                 "chapter_title": title, 
                 "chapter_focus": focus, 
                 "topics_to_avoid": topics_to_avoid,
-                "chapter_type": ctype
+                "contextual_summary": contextual_summary
             }
 
-            specialist = writer_specialists.get(ctype)
-
-            if specialist:
-                context_for_specialist = {key: structured_research.get(key, []) for key in specialist['context_keys']}
-                common_args['contextual_summary'] = json.dumps(context_for_specialist, ensure_ascii=False, indent=2)
-                content, _ = specialist['method'](**common_args)
-
-            else:
-                # MEJORA: Se elimina el paso intermedio de resumen.
-                # Se pasa el dossier completo directamente al escritor experto.
-                common_args['contextual_summary'] = json.dumps(structured_research, ensure_ascii=False, indent=2)
-                
-                if ctype == 'introduction':
-                    content, _ = self.llm_heavy.write_introduction(**common_args)
-                elif ctype == 'conclusion':
-                    content, _ = self.llm_heavy.write_conclusion(**common_args)
-                else:
-                    logging.warning(f"No se encontró un escritor especialista para '{ctype}'. Usando el genérico.")
-                    content, _ = self.llm_heavy.write_chapter(**common_args)
+            content, _ = self.llm_heavy.call_agent(agent_id, **common_args)
 
             if content and isinstance(content, str) and len(content.strip()) > 0:
-                content = self._handle_dynamic_research(content)
                 book_content.append({"title": title, "content": content, "type": ctype})
                 self.workspace.save_chapter(i + 1, title, content)
             else:
                 logging.warning(f"No se pudo generar contenido para el capítulo '{title}'. Se guardará como None.")
                 book_content.append({"title": title, "content": None, "type": ctype})
             
-            # Guardar el progreso después de cada capítulo, incluso si falla
             self.state['book_content'] = book_content
             self.workspace.save_progress(self.state)
         
-        logging.info("Fase de escritura con especialistas completada exitosamente.")
+        logging.info("✅ Fase de escritura con especialistas completada exitosamente.")
         return True

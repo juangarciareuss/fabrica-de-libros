@@ -1,3 +1,5 @@
+# prompts/refactor_agents.py
+
 #------------------------------------------------------------------------------------
 #3. AGENTES REFACTORIZADORES (El Equipo de Edición)
 #------------------------------------------------------------------------------------
@@ -10,22 +12,20 @@ REGLA DE CITACIÓN (MUY IMPORTANTE):
 DEBES conservar intactos todos los marcadores de cita como [CITA: 12]. Son esenciales.
 
 INSTRUCCIÓN SOBRE IMÁGENES: Inserta marcadores [Aqui se inserta una imagen de: ...] donde sea visualmente útil.
+
 INPUTS PARA LA TAREA:
 
 1. BORRADOR ORIGINAL: "{chapter_title}"
 {original_content}
+
 2. ÓRDENES DE EDICIÓN:
 ÓRDENES POR PÁRRAFO (DEL EDITOR IA):
-
-JSON
-
+```json
 {critique_feedback}
 ORDEN GENERAL (DEL AUTOR HUMANO - MÁXIMA PRIORIDAD):
 {user_feedback}
-3. CONTEXTO DE INVESTIGACIÓN:
-{contextual_summary}
-4. RESTRICCIONES:
 
+RESTRICCIONES:
 Temas Prohibidos: {topics_to_avoid}
 
 FORMATO DE SALIDA OBLIGATORIO (Solo el JSON):

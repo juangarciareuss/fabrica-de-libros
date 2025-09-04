@@ -7,12 +7,6 @@
       "prompt_file": "prompts/research_agents.py"
     },
     {
-      "agent_id": "research_url_preselector",
-      "role": "Pre-Selector de Fuentes URL",
-      "prompt_variable": "URL_PRESELECTION_AGENT_PROMPT",
-      "prompt_file": "prompts/research_agents.py"
-    },
-    {
       "agent_id": "research_master_curator",
       "role": "Curador Maestro de Contenido",
       "prompt_variable": "MASTER_CURATOR_PROMPT",
@@ -26,9 +20,15 @@
     },
     {
       "agent_id": "structuring_context_summarizer",
-      "role": "Sumarizador de Contexto",
+      "role": "Filtro de Contexto Inteligente",
       "prompt_variable": "CONTEXTUAL_SUMMARY_PROMPT",
       "prompt_file": "prompts/structuring_agents.py"
+    },
+    {
+      "agent_id": "youtube_analyst",
+      "role": "Analista de Contenido de YouTube",
+      "prompt_variable": "YOUTUBE_ANALYST_PROMPT",
+      "prompt_file": "prompts/youtube_agents.py"
     },
     {
       "agent_id": "writer_introduction",
@@ -67,16 +67,22 @@
       "prompt_file": "prompts/writing_agents.py"
     },
     {
-      "agent_id": "writer_dynamic_rewriter",
-      "role": "Reescritor de Párrafos (Investigación Dinámica)",
-      "prompt_variable": "REWRITE_PARAGRAPH_PROMPT",
-      "prompt_file": "prompts/writing_agents.py"
+      "agent_id": "writer_youtube",
+      "role": "Escritor Especialista en Contenido de YouTube",
+      "prompt_variable": "YOUTUBE_WRITER_PROMPT",
+      "prompt_file": "prompts/youtube_agents.py"
     },
     {
       "agent_id": "writer_generic_fallback",
       "role": "Escritor Genérico (Fallback)",
       "prompt_variable": "CHAPTER_WRITING_PROMPT",
       "prompt_file": "prompts/writing_agents.py"
+    },
+    {
+      "agent_id": "content_auditor",
+      "role": "Auditor de Cobertura de Contenido",
+      "prompt_variable": "CONTENT_AUDITOR_PROMPT",
+      "prompt_file": "prompts/audit_agents.py"
     },
     {
       "agent_id": "critic_generic_fallback",
@@ -86,7 +92,7 @@
     },
     {
       "agent_id": "critic_tutorial",
-      "role": "Crítico Especialista en Tutoriales (Beta Tester)",
+      "role": "Crítico Especialista en Tutoriales",
       "prompt_variable": "CRITIQUE_TUTORIAL_PROMPT",
       "prompt_file": "prompts/critic_agents.py"
     },
@@ -100,6 +106,12 @@
       "agent_id": "critic_use_cases",
       "role": "Crítico Especialista en Casos de Uso",
       "prompt_variable": "CRITIQUE_USE_CASES_PROMPT",
+      "prompt_file": "prompts/critic_agents.py"
+    },
+    {
+      "agent_id": "critic_comparison",
+      "role": "Crítico Especialista en Comparativas",
+      "prompt_variable": "CRITIQUE_COMPARISON_PROMPT",
       "prompt_file": "prompts/critic_agents.py"
     },
     {
@@ -127,10 +139,16 @@
       "prompt_file": "prompts/refactor_agents.py"
     },
     {
-      "agent_id": "auditor_system",
-      "role": "Auditor de Sistema y Rendimiento de Agentes",
-      "prompt_variable": "SYSTEM_AUDITOR_PROMPT",
-      "prompt_file": "prompts/audit_agents.py"
+      "agent_id": "refactor_comparison",
+      "role": "Refactorizador Especialista en Comparativas",
+      "prompt_variable": "REFACTOR_COMPARISON_PROMPT",
+      "prompt_file": "prompts/refactor_agents.py"
+    },
+    {
+      "agent_id": "commercial_manager_analyst",
+      "role": "Gerente Comercial y Analista de Mercado",
+      "prompt_variable": "COMMERCIAL_MANAGER_PROMPT",
+      "prompt_file": "prompts/manager_agents.py"
     }
   ]
 }

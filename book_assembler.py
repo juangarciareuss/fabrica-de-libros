@@ -1,100 +1,117 @@
+# book_generator/book_assembler.py
+
 from docx import Document
 import pypandoc
 import logging
 import os
-import re # <-- LÍNEA AÑADIDA PARA CORREGIR EL ERROR
+import re
 
-def create_word_document(book_title, book_content, curated_sources, output_folder="output", template_path="MiPlantilla.docx"):
+def create_final_document(book_title, book_content, curated_sources, output_folder, template_path, include_internal_citations=False):
     """
-    Crea un documento de Word, procesando marcadores de cita
-    y construyendo una sección de referencias numerada.
+    Crea una versión específica del documento de Word (limpia o con citas internas).
     """
-    if not os.path.exists(output_folder): os.makedirs(output_folder)
-    doc_path = os.path.join(output_folder, f"{book_title}.docx")
-
     try:
-        document = Document(template_path)
-    except Exception:
-        document = Document()
+        doc = Document(template_path) if template_path and os.path.exists(template_path) else Document()
+    except Exception as e:
+        logging.warning(f"No se pudo usar la plantilla de Word. Se creará un documento en blanco. Error: {e}")
+        doc = Document()
 
-    document.add_heading(book_title, level=0)
-    
-    cited_sources_map = {}
-    citation_counter = 1
+    doc.add_heading(book_title, level=0)
+    cited_sources_map = set()
 
-    # Procesamiento de Contenido con Citaciones
-    # (La lógica de esta sección no cambia)
-    introduction = next((c for i, c in enumerate(book_content) if c.get('type') == 'introduction'), book_content.pop(0) if book_content else None)
-    conclusion = next((c for i, c in enumerate(book_content) if c.get('type') == 'conclusion'), book_content.pop(-1) if book_content else None)
+    # --- Lógica de Procesamiento de Capítulos ---
+    introduction = next((chap for chap in book_content if chap.get('type') == 'introduction'), None)
+    conclusion = next((chap for chap in book_content if chap.get('type') == 'conclusion'), None)
+    main_chapters = [chap for chap in book_content if chap.get('type') not in ['introduction', 'conclusion']]
 
     if introduction:
-        _add_chapter_to_doc(document, introduction, curated_sources, cited_sources_map)
+        _add_chapter_to_doc(doc, introduction['title'], introduction['content'], curated_sources, cited_sources_map, include_internal_citations)
 
-    dev_chapters = [c for c in book_content if c not in [introduction, conclusion]]
-    for chapter in dev_chapters:
-        _add_chapter_to_doc(document, chapter, curated_sources, cited_sources_map)
-    
+    for chapter in main_chapters:
+        doc.add_page_break()
+        _add_chapter_to_doc(doc, chapter['title'], chapter['content'], curated_sources, cited_sources_map, include_internal_citations)
+
     if conclusion:
-        _add_chapter_to_doc(document, conclusion, curated_sources, cited_sources_map)
+        doc.add_page_break()
+        _add_chapter_to_doc(doc, conclusion['title'], conclusion['content'], curated_sources, cited_sources_map, include_internal_citations)
+
+    _add_bibliography_to_doc(doc, curated_sources, cited_sources_map)
     
-    # Construcción de la Sección de Referencias
-    document.add_heading("Referencias", level=1)
-    if cited_sources_map:
-        sorted_sources = sorted(cited_sources_map.items(), key=lambda item: item[1])
-        for url, num in sorted_sources:
-            p = document.add_paragraph()
-            p.add_run(f"[{num}] ").bold = True
-            p.add_run(url)
-    else:
-        document.add_paragraph("No se citaron fuentes externas.")
-
-    document.save(doc_path)
-    logging.info(f"Documento de Word con citaciones guardado en: {doc_path}")
-    return doc_path
-
-def _add_chapter_to_doc(document, chapter_data, curated_sources, cited_sources_map):
-    """
-    Función auxiliar para añadir un capítulo al documento,
-    limpiando anotaciones y procesando citas visibles.
-    """
-    citation_counter = len(cited_sources_map) + 1
-    document.add_heading(chapter_data.get('title', 'Sin Título'), level=1)
+    suffix = "_CON_REFERENCIAS" if include_internal_citations else "_FINAL_LIMPIO"
+    doc_path = os.path.join(output_folder, f"{book_title}{suffix}.docx")
     
-    content = chapter_data.get('content', '')
-    if content:
-        # Limpieza de anotaciones invisibles
-        content = re.sub(r'<!-- CITE:.*?-->', '', content)
+    try:
+        doc.save(doc_path)
+        logging.info(f"Documento '{os.path.basename(doc_path)}' guardado.")
+        return doc_path
+    except PermissionError:
+        logging.critical(f"¡ERROR DE PERMISOS AL GUARDAR EL ARCHIVO '{doc_path}'!")
+        logging.critical("CAUSA MÁS PROBABLE: El archivo está abierto en otro programa (ej. Microsoft Word).")
+        return None
 
-        for para_text in content.split('\n'):
-            if para_text.strip().startswith('### '):
-                document.add_heading(para_text.strip().replace('### ', ''), level=2)
-            elif para_text.strip():
-                p = document.add_paragraph()
-                
-                # Lógica para encontrar y reemplazar citas visibles [fuente: N]
-                parts = re.split(r'(\[fuente:\s*[\d,\s]+\])', para_text)
-                for part in parts:
-                    match = re.match(r'\[fuente:\s*([\d,\s]+)\]', part)
-                    if match:
-                        source_ids = [int(s.strip()) for s in match.group(1).split(',')]
-                        for source_id in source_ids:
-                            source = next((s for s in curated_sources if s.get('id') == source_id), None)
-                            if source:
-                                url = source['url']
-                                if url not in cited_sources_map:
-                                    cited_sources_map[url] = citation_counter
-                                    citation_counter += 1
-                                citation_num = cited_sources_map[url]
-                                run = p.add_run(f"[{citation_num}]")
-                                run.font.superscript = True
-                    else:
-                        # Añade texto normal y maneja negritas
-                        sub_parts = part.split('**')
-                        for i, sub_part in enumerate(sub_parts):
-                            run = p.add_run(sub_part)
-                            if i % 2 == 1:
-                                run.bold = True
+def _add_chapter_to_doc(document, title, content, cited_sources_map, include_internal_citations):
+    """Añade un único capítulo formateado al documento, manejando citas de forma robusta."""
+    document.add_heading(title, level=1)
+    
+    # Expresión regular mejorada para capturar CUALQUIER contenido dentro de [CITA: ...]
+    CITE_PATTERN = r'\[CITA:\s*([^\]]+)\]'
+    
+    if not isinstance(content, str):
+        content = str(content)
+
+    content = re.sub(r'\[`?Fragmento\s*#\d+`?\]|\(`?Fragmento\s*#\d+`?\)', '', content)
+    paragraphs = content.split('\n')
+
+    for para in paragraphs:
+        para = para.strip()
+        if not para:
+            continue
+
+        # Registrar todas las citas encontradas
+        matches = re.findall(CITE_PATTERN, para)
+        for match in matches:
+            # Limpiamos y dividimos por si hay múltiples citas en un solo bloque
+            source_keys = [s.strip() for s in match.split(',')]
+            for key in source_keys:
+                cited_sources_map.add(key) # Añadimos la clave (sea ID o URL) al set
+
+        final_para = para
+        if not include_internal_citations:
+            final_para = re.sub(CITE_PATTERN, '', para).strip()
+        
+        if final_para:
+            document.add_paragraph(final_para)
+
+def _add_bibliography_to_doc(document, curated_sources, cited_sources_map):
+    """Añade una bibliografía completa y formateada al final del documento."""
     document.add_page_break()
+    document.add_heading("Bibliografía y Fuentes", level=1)
+    
+    if not cited_sources_map or not curated_sources:
+        document.add_paragraph("No se citaron fuentes externas en este documento.")
+        return
+
+    # Crear diccionarios para búsqueda rápida por ID y por URL
+    sources_by_id = {str(src.get('id')): src for src in curated_sources if 'id' in src}
+    sources_by_url = {src.get('url'): src for src in curated_sources if 'url' in src}
+    
+    # Usamos una lista para poder ordenarla y mostrarla
+    processed_sources = []
+    
+    for key in sorted(list(cited_sources_map)):
+        source_details = sources_by_id.get(key) or sources_by_url.get(key)
+        if source_details and source_details not in processed_sources:
+            processed_sources.append(source_details)
+
+    for i, source in enumerate(processed_sources, 1):
+        p = document.add_paragraph()
+        p.add_run(f"[{i}] ").bold = True
+        source_url = source.get('url', 'URL no disponible')
+        snippet_text = source.get('snippet', 'Contenido no disponible')
+        
+        p.add_run(f"Fuente: {source_url}\n")
+        p.add_run(f"Fragmento: ").italic = True
+        p.add_run(f"\"{snippet_text}\"").italic = True
 
 
 def convert_to_epub(docx_path, book_title, output_folder="output"):

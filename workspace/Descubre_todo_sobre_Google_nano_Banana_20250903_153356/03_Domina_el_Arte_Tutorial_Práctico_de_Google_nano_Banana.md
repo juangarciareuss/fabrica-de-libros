@@ -1,62 +1,62 @@
 # Domina el Arte: Tutorial Práctico de Google nano Banana
 
-# Domina el Arte: Tutorial Práctico de Google Gemini Nano Banana (Flash Image)
+"Domina el Arte: Tutorial Práctico de Google nano Banana (Gemini 2.5 Flash Image)"
 
-Este capítulo te guiará paso a paso a través del proceso de uso de Google Gemini Nano Banana (Flash Image), la innovadora herramienta de edición de imágenes impulsada por IA.  No necesitas experiencia previa para seguir este tutorial, te llevaremos de la mano en cada etapa del proceso.  Prepárate para desbloquear todo el potencial creativo de Gemini Nano Banana.
+Este capítulo te guiará paso a paso a través del proceso de creación y edición de imágenes con Gemini 2.5 Flash Image (también conocido como nano-banana), la innovadora herramienta de generación de imágenes de Google.  [CITA: https://developers.googleblog.com/en/introducing-gemini-2.5-flash-image/]
 
-## 1. Acceso a Gemini Nano Banana
+**1. Acceso a Gemini 2.5 Flash Image:**
 
-Gemini Nano Banana (Flash Image) está disponible a través de varias plataformas para desarrolladores: Gemini API, Google AI Studio y Vertex AI para empresas [CITA: technical_details-1].  Este tutorial se centrará en el acceso a través de Google AI Studio, por su facilidad de uso para principiantes.
+* **Gemini API:** Para desarrolladores. [CITA: https://developers.googleblog.com/en/introducing-gemini-2.5-flash-image/]  Para acceder a Gemini API, primero debes obtener una clave de API en la [Aquí va un enlace a la página para obtener la clave de API]. Una vez que tengas la clave, puedes usarla para autenticar tus solicitudes a la API.  Consulta la documentación de la API para obtener instrucciones detalladas sobre cómo usar la API para generar y editar imágenes con nano-banana.  [Aqui se inserta una imagen de: Ejemplo de código para usar la Gemini API para nano-banana]
+* **Google AI Studio:** Para desarrolladores. [CITA: https://developers.googleblog.com/en/introducing-gemini-2.5-flash-image/]  Para usar nano-banana en Google AI Studio, crea un nuevo cuaderno y selecciona el entorno de ejecución de Gemini.  Luego, puedes usar el código proporcionado en la documentación para generar y editar imágenes. [Aqui se inserta una imagen de: Captura de pantalla de la selección del entorno de ejecución de Gemini en Google AI Studio] [Aqui se inserta una imagen de: Captura de pantalla de un ejemplo de código en Google AI Studio para nano-banana]
+* **Vertex AI:** Para empresas. [CITA: https://developers.googleblog.com/en/introducing-gemini-2.5-flash-image/] Para usar nano-banana en Vertex AI, primero debes crear un proyecto de Vertex AI. Después, puedes implementar el modelo de nano-banana en un endpoint y usar la API de Vertex AI para interactuar con él.  Consulta la documentación de Vertex AI para obtener instrucciones más detalladas.  [Aqui se inserta una imagen de: Captura de pantalla de la creación de un proyecto de Vertex AI] [Aqui se inserta una imagen de: Captura de pantalla del despliegue del modelo de nano-banana en Vertex AI]
+* **Aplicación Gemini (Móvil):** Actualmente, Gemini 2.5 Flash Image no está disponible directamente en la aplicación móvil de Gemini. La funcionalidad de generación y edición de imágenes se ofrece principalmente a través de las plataformas mencionadas anteriormente.  [Aqui se inserta una imagen de: Mensaje en la app móvil indicando que nano-banana no está disponible]
 
-1.1. Dirígete a la página web de Google AI Studio. `[INVESTIGAR: URL de Google AI Studio]`
+[Aqui se inserta una imagen de: captura de pantalla de las opciones de acceso a Gemini 2.5 Flash Image]
 
-1.2. Inicia sesión con tu cuenta de Google. `[Aqui se inserta una imagen de: captura de pantalla de la página de inicio de sesión de Google AI Studio]`
+**2.  Generación de una Imagen:**
 
-1.3. Una vez dentro, busca la sección de Gemini y selecciona "Flash Image". `[INVESTIGAR: Interfaz de usuario de Google AI Studio y ubicación exacta de Flash Image dentro de la plataforma]` `[Aqui se inserta una imagen de: captura de pantalla de la selección de Flash Image en Google AI Studio]`
+Una vez dentro de la plataforma elegida (ej. Google AI Studio),  sigue estos pasos:
 
-## 2. Entendiendo la Interfaz
+2.1. **Ingresa tu prompt:** Describe la imagen que deseas generar.  Por ejemplo, "un gato naranja sentado en un sombrero de bruja".  [CITA: https://www.geeky-gadgets.com/gemini-2.5-ai-image-creation-tool/] Cuanto más detallada sea la descripción, mejor será el resultado.
 
-La interfaz de Gemini Nano Banana es intuitiva y fácil de usar. Familiarízate con los elementos clave antes de comenzar a editar.
+[Aqui se inserta una imagen de: captura de pantalla del ingreso de un prompt en la interfaz]
 
-2.1.  **Panel de Entrada:**  Aquí es donde subirás la imagen que deseas editar. `[Aqui se inserta una imagen de: captura de pantalla del Panel de Entrada]`
+2.2. **Generar la imagen:** Haz clic en el botón "Generar".  El nombre del botón puede variar ligeramente dependiendo de la plataforma, pero generalmente se identifica fácilmente.  Busca un botón que diga "Generar", "Crear", "Ejecutar" o similar.  [INVESTIGAR: Nombre exacto del botón de generación en cada plataforma]
 
-2.2.  **Panel de Salida:**  En este panel se mostrará la imagen editada. `[Aqui se inserta una imagen de: captura de pantalla del Panel de Salida]`
+[Aqui se inserta una imagen de: captura de pantalla del botón de generación]
 
-2.3.  **Barra de Prompts:**  Aquí escribirás las instrucciones para que la IA modifique la imagen.  Utiliza lenguaje natural y sé lo más específico posible.  Por ejemplo, puedes escribir: "Cambia el fondo a una playa tropical al atardecer".  `[Aqui se inserta una imagen de: captura de pantalla de la Barra de Prompts con un ejemplo de prompt]`
+2.3. **Visualiza la imagen:** La IA generará la imagen basándose en tu prompt.
 
-2.4.  **Opciones Avanzadas:** `[INVESTIGAR: Opciones Avanzadas disponibles en la interfaz de Gemini Nano Banana (Flash Image)]`  Explora las opciones avanzadas para tener mayor control sobre la edición. `[Aqui se inserta una imagen de: captura de pantalla de las Opciones Avanzadas]`
+[Aqui se inserta una imagen de: captura de pantalla de la imagen generada]
 
-## 3.  Editando tu Primera Imagen
+**3. Edición de la Imagen:**
 
-Ahora, vamos a editar una imagen.
+Gemini 2.5 Flash Image permite la edición de imágenes generadas. [CITA: https://developers.googleblog.com/en/introducing-gemini-2.5-flash-image/]
 
-3.1.  **Subir una Imagen:**  En el Panel de Entrada, haz clic en "Subir" y selecciona la imagen que deseas editar desde tu ordenador.  Asegúrate de que la imagen tenga un formato compatible (JPEG, PNG, etc.). `[Aqui se inserta una imagen de: captura de pantalla del proceso de subida de una imagen]`
+3.1. **Edición Multi-turno:** Puedes realizar múltiples ediciones consecutivas.  Por ejemplo, puedes pedirle a la IA que cambie el color del sombrero del gato de bruja de negro a morado. Para hacer esto, ingresa un nuevo prompt, como "cambiar el color del sombrero a morado".  [CITA: https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/] [Aqui se inserta una imagen de: captura de pantalla de la interfaz con el prompt para cambiar el color del sombrero]  [Aqui se inserta una imagen de: captura de pantalla del resultado de la edición multi-turno]
 
-3.2.  **Escribir el Prompt:**  En la Barra de Prompts, escribe la instrucción para modificar la imagen.  Por ejemplo: "Convierte esta foto en una pintura al óleo impresionista". `[Aqui se inserta una imagen de: captura de pantalla de la Barra de Prompts con el ejemplo de prompt]`
+3.2. **Combinación de Fotos:** Puedes combinar elementos de diferentes fotos.  Por ejemplo, puedes agregar tu propia foto a la imagen del gato con el sombrero.  Para ello, utiliza la opción "Combinar" o "Importar" en la interfaz, selecciona las imágenes que deseas combinar y especifica cómo deben integrarse. [CITA: https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/] [Aqui se inserta una imagen de:  Captura de pantalla de la interfaz mostrando las opciones para combinar fotos]  [Aqui se inserta una imagen de: Captura de pantalla del resultado de la combinación de fotos]
 
-3.3.  **Generar la Imagen:** Haz clic en "Generar".  La IA procesará tu solicitud y mostrará el resultado en el Panel de Salida.  [CITA: technical_details-0] `[Aqui se inserta una imagen de: captura de pantalla del Panel de Salida con la imagen editada]`
+3.3. **Cambio de Fondo:** Puedes modificar el fondo de la imagen. Por ejemplo, puedes cambiar el fondo de la imagen del gato a un paisaje otoñal.  Para ello, selecciona la opción "Cambiar fondo" en la interfaz y proporciona un nuevo fondo o describe el fondo que deseas.  [CITA: https://www.pcgamer.com/software/ai/geminis-nano-banana-update-aims-to-keep-people-looking-the-same-in-ai-art-and-the-fear-of-deepfakes-makes-me-want-to-wear-a-brown-paper-bag-on-my-head-forever-more/] [Aqui se inserta una imagen de: Captura de pantalla de la interfaz mostrando la opción para cambiar el fondo] [Aqui se inserta una imagen de: Captura de pantalla del resultado del cambio de fondo]
 
-3.4.  **Refinar la Edición:** Si el resultado no es exactamente lo que buscas, puedes modificar el prompt o explorar las Opciones Avanzadas para ajustar la edición.  `[Aqui se inserta una imagen de: captura de pantalla del proceso de refinamiento de la imagen]`
+**4. Estilos y Collages:**
 
-## 4. Ejemplos Prácticos
+Gemini 2.5 Flash Image puede ser usado para crear estilos y collages, especialmente para fotos de mascotas. [CITA: https://meowgic.art]  Nano-banana ofrece una variedad de estilos predefinidos, como "Impresionista", "Cubista", "Pop Art", entre otros.  Para aplicar un estilo, selecciona la opción "Estilos" en la interfaz y elige el estilo que desees.  Para crear collages, puedes usar la función "Combinar" para unir varias imágenes en una sola composición. Puedes ajustar el diseño y la disposición de las imágenes en el collage. [Aqui se inserta una imagen de: Captura de pantalla mostrando la selección de estilos]  [Aqui se inserta una imagen de: Captura de pantalla mostrando la creación de un collage]
 
-Aquí te presentamos algunos ejemplos prácticos para inspirarte:
+[Aqui se inserta una imagen de: captura de pantalla de ejemplos de estilos y collages]
 
-* **Ejemplo 1: Cambiar el Fondo:**  Sube una foto de una persona y escribe el prompt: "Cambia el fondo a un paisaje lunar". [CITA: use_cases-3]  `[Aqui se inserta una imagen de: Ejemplo de cambio de fondo]`
-* **Ejemplo 2:  Crear una Pintura:** Sube una foto de un objeto y escribe el prompt: "Convierte esta foto en una acuarela".  [CITA: use_cases-6] `[Aqui se inserta una imagen de: Ejemplo de creación de una pintura]`
-* **Ejemplo 3:  Ajustar la Iluminación:** Sube una foto oscura y escribe el prompt: "Aumenta el brillo y el contraste de la imagen". `[Aqui se inserta una imagen de: Ejemplo de ajuste de iluminación]`
+**5.  Costos:**
 
-## 5. Ejercicios
+El costo de Gemini 2.5 Flash Image es de $30 por millón de tokens de salida. Cada imagen generada cuenta como 1290 tokens, lo que equivale a aproximadamente $0.039 por imagen.  El costo se factura a través de tu cuenta de Google Cloud y puedes ver el detalle del consumo en la consola de Google Cloud. [CITA: https://developers.googleblog.com/en/introducing-gemini-2.5-flash-image/] [CITA: https://www.notebookcheck.net/Google-introduces-Gemini-2.5-Flash-Image-nano-banana-with-stronger-edit-consistency.1098007.0.html] [Aqui se inserta una imagen de: Captura de pantalla de la consola de Google Cloud mostrando el detalle del costo]
 
-Pon en práctica lo aprendido con estos ejercicios:
+**Ejercicios Prácticos:**
 
-* **Ejercicio 1:** Sube una foto de tu mascota y cámbiale el fondo a un escenario divertido.  [CITA: use_cases-12]
-* **Ejercicio 2:**  Crea una imagen a partir de una descripción textual. Por ejemplo: "Un gato con sombrero tocando el piano en un café parisino". [CITA: use_cases-6]
-* **Ejercicio 3:** Toma una foto de un objeto cotidiano y transfórmalo en una obra de arte surrealista.
+1. Crea una imagen de un perro con gafas de sol.
+2. Modifica la imagen para que el perro esté en la playa.
+3. Combina la imagen del perro con una foto tuya.
+4. Crea un collage con fotos de diferentes razas de perros aplicando el estilo "Pop Art".
+5. Genera una imagen de un gato con un sombrero de copa y cambia el fondo a un paisaje lunar.
 
-## 6.  Consideraciones Adicionales
+**Conclusión:**
 
-* **Costos:** Ten en cuenta que el uso de Gemini 2.5 Flash Image tiene un costo asociado por cada imagen generada. [CITA: technical_details-2, technical_details-3].
-* **Experimentación:** La clave para dominar Gemini Nano Banana es la experimentación.  Prueba diferentes prompts y opciones para descubrir todas las posibilidades.
-
-Este tutorial te ha proporcionado las bases para comenzar a utilizar Google Gemini Nano Banana.  Recuerda que la práctica hace al maestro.  ¡Explora, experimenta y crea imágenes asombrosas!
+Gemini 2.5 Flash Image (nano-banana) es una herramienta poderosa para la generación y edición de imágenes. Con su interfaz intuitiva y sus amplias capacidades, puedes dar vida a tus ideas creativas con facilidad.  Recuerda que la práctica es clave para dominar cualquier herramienta.  Experimenta con diferentes prompts y opciones de edición para descubrir todo el potencial de nano-banana.  Nano-banana soporta la exportación en formatos PNG y JPG.  [INVESTIGAR:  Incluir información sobre la exportación y formatos de archivo compatibles con nano-banana.]  Una limitación actual de nano-banana es que no puede generar imágenes con texto.  [INVESTIGAR: Incluir información sobre las limitaciones de nano-banana.]
