@@ -1,12 +1,6 @@
 {
-    "topic": "Descubre todo sobre Google nano Banana",
-    "description": "Objetivo: Conocer a detalle la generaci\u00f3n de im\u00e1genes de Nano Banana modelo de generacion de im\u00e1genes Google en AI Studio y 20 casos de uso y comparativa con otros modelos como Midjurney, FLux, etc. El libro debe mostrar mecanismos de prompt adecuados para obtener las mejores im\u00e1genes para cada caso.  \nP\u00fablico: Personas interesadas en tecnolog\u00eda y generaci\u00f3n de im\u00e1genes",
-    "domain": "Tecnolog\u00eda e IA",
-    "topics_to_avoid": [
-        "microbiologia",
-        "agricultura",
-        "microscopio",
-        "fruta",
-        "manzana"
-    ]
+    "topic": "Historia de Armani",
+    "description": "Objetivo: Cubre la historia de Armani a proposito de la muerte reciente de Giorgio Armani\nP\u00fablico: Gente interesada en la moda",
+    "domain": "Moda",
+    "topics_to_avoid": []
 }

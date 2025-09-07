@@ -149,6 +149,12 @@
       "role": "Gerente Comercial y Analista de Mercado",
       "prompt_variable": "COMMERCIAL_MANAGER_PROMPT",
       "prompt_file": "prompts/manager_agents.py"
+    },
+    {
+      "agent_id": "cover_designer",
+      "role": "Director de Arte y Diseñador de Portadas",
+      "prompt_variable": "COVER_DESIGNER_PROMPT",
+      "prompt_file": "prompts/designer_agents.py"
     }
   ]
 }

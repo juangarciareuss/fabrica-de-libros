@@ -7,7 +7,7 @@ import os
 import hashlib
 import json
 import config
-from prompts import manager_agents, writing_agents, research_agents, structuring_agents, critic_agents, refactor_agents, audit_agents
+from prompts import manager_agents, designer_agents, writing_agents, research_agents, structuring_agents, critic_agents, refactor_agents, audit_agents
 
 CACHE_DIR = "cache"
 
@@ -36,6 +36,9 @@ class LLMHandler:
         self.performance_logger = performance_logger
         self.agent_manifest = agent_manifest
         self.agent_configs = {
+            #Designer
+            "cover_designer": {"prompt": designer_agents.COVER_DESIGNER_PROMPT, "json_output": True}, # <-- LÍNEA AÑADIDA
+            "cover_designer_gemini": {"prompt": designer_agents.GEMINI_COVER_DESIGNER_PROMPT, "json_output": False},
             # Manager
             "commercial_manager_analyst": {"prompt": manager_agents.COMMERCIAL_MANAGER_PROMPT, "json_output": True}, # <-- LÍNEA AÑADIDA
             "research_web_query_generator": {"prompt": research_agents.WEB_QUERY_GENERATOR_PROMPT, "json_output": True},

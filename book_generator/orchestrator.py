@@ -39,11 +39,27 @@ class BookOrchestrator:
         self.refiner = PhaseRefinement(**common_args)
 
         logging.info(f"Orquestador inicializado. Workspace en: '{self.workspace.workspace_dir}'")
+    
+    # --- !! MÉTODO NUEVO Y CLAVE !! ---
+    def analyze_youtube_content(self):
+        """
+        Activa el agente analista para que revise el contenido de Youtube.txt
+        y proponga un nuevo capítulo para el libro.
+        """
+        # El workspace se encarga de leer el archivo de forma segura
+        transcript = self.workspace.read_youtube_transcript("Youtube.txt")
+        if not transcript:
+            logging.warning("No se encontró contenido en Youtube.txt para analizar.")
+            return None
+            
+        # Usamos el LLM rápido para esta tarea de análisis estratégico
+        proposed_chapter, _ = self.writer.llm_fast.call_agent(
+            "youtube_analyst",
+            youtube_transcript=transcript
+        )
+        return proposed_chapter
 
     def _update_phase_handlers_state(self):
-        """
-        Propaga el estado actual del orquestador a todas las fases hijas para mantener la sincronización.
-        """
         self.researcher.state = self.state
         self.writer.state = self.state
         self.auditor.state = self.state
@@ -51,7 +67,6 @@ class BookOrchestrator:
         logging.info("El estado interno de todas las fases ha sido sincronizado.")
 
     def _load_state_from_workspace(self):
-        """Carga el estado y luego lo sincroniza con las fases hijas."""
         loaded_state = self.workspace.load_progress()
         if loaded_state:
             self.state = loaded_state
@@ -62,27 +77,15 @@ class BookOrchestrator:
         return False
 
     def _execute_phases(self, run_research=True, run_writing=True, run_audit=True, run_refinement=True):
-        """Motor de ejecución centralizado para las fases, incluyendo la auditoría."""
         try:
             if run_research:
-                if not self.researcher.execute():
-                    logging.critical("La fase de investigación falló. Abortando.")
-                    return None, None
-            
+                if not self.researcher.execute(): return None, None
             if run_writing:
-                if not self.writer.execute():
-                    logging.critical("La fase de escritura falló. Abortando.")
-                    return None, None
-
+                if not self.writer.execute(): return None, None
             if run_audit:
-                if not self.auditor.execute():
-                    logging.critical("La fase de auditoría falló. Abortando.")
-                    return None, None
-            
+                if not self.auditor.execute(): return None, None
             if run_refinement:
-                if not self.refiner.execute():
-                    logging.critical("La fase de refinamiento falló. Abortando.")
-                    return None, None
+                if not self.refiner.execute(): return None, None
             
             final_book_content = self.state.get("book_content", [])
             curated_sources = self.state.get("curated_sources", [])
@@ -93,19 +96,34 @@ class BookOrchestrator:
             if run_audit: return self.auditor.llm_fast, self.auditor.llm_heavy
             if run_writing: return self.writer.llm_fast, self.writer.llm_heavy
             if run_research: return self.researcher.llm_fast, self.researcher.llm_heavy
-
         except Exception as e:
             logging.critical(f"Ha ocurrido un error inesperado en el orquestador: {e}", exc_info=True)
             sys.exit("El proceso ha sido detenido debido a un error crítico.")
         return None, None
 
-    def run_full_process(self):
-        """Ejecuta el pipeline completo para un nuevo libro."""
+    def run_full_process(self, youtube_chapter_data=None):
         logging.info("Iniciando un nuevo proceso de libro completo.")
+        
+        if youtube_chapter_data:
+            if not self.state.get("table_of_contents"):
+                base_toc, _ = self.writer.llm_fast.call_agent(
+                    "structuring_toc_generator",
+                    topic=self.state["core_topic"], 
+                    book_description=self.state["description"]
+                )
+                self.state["table_of_contents"] = base_toc if base_toc else []
+            
+            if self.state["table_of_contents"]:
+                insertion_point = next((i + 1 for i, chap in enumerate(self.state["table_of_contents"]) if chap.get('chapter_type') == 'practical_tutorial'), -1)
+                if insertion_point != -1:
+                    self.state["table_of_contents"].insert(insertion_point, youtube_chapter_data)
+                else:
+                    self.state["table_of_contents"].insert(-1, youtube_chapter_data)
+                logging.info(f"Capítulo de YouTube '{youtube_chapter_data['title']}' insertado en la estructura del libro.")
+
         return self._execute_phases(True, True, True, True)
 
     def resume_from_last_state(self):
-        """Reanuda el proceso basándose en el estado guardado."""
         if not self._load_state_from_workspace(): return None, None
         
         is_research_done = self.state.get("research_catalog") is not None
@@ -113,62 +131,43 @@ class BookOrchestrator:
         is_audit_done = os.path.exists(os.path.join(self.workspace.workspace_dir, "audit_report.json"))
 
         if not is_research_done:
-            logging.info("Reanudando desde la fase de investigación.")
             return self._execute_phases(True, True, True, True)
         elif not is_writing_done:
-            logging.info("Reanudando desde la fase de escritura.")
             return self._execute_phases(False, True, True, True)
         elif not is_audit_done:
-            logging.info("Reanudando desde la fase de auditoría.")
             return self._execute_phases(False, False, True, True)
         else:
-            logging.info("Reanudando desde la fase de refinamiento.")
             return self._execute_phases(False, False, False, True)
 
     def run_from_phase(self, phase_key):
-        """Inicia el proceso desde una fase específica seleccionada por el usuario."""
         if not self._load_state_from_workspace(): return None, None
 
         if phase_key == 'a':
-            logging.info("Re-lanzando desde la FASE DE INVESTIGACIÓN.")
-            self.state["research_catalog"] = None
-            self.state["book_content"] = []
-            self.state["table_of_contents"] = None
+            self.state.update({"research_catalog": None, "book_content": [], "table_of_contents": None})
             self._update_phase_handlers_state()
             for f in os.listdir(self.workspace.workspace_dir):
-                if f.endswith((".md", ".json")) and f != "performance_log.json": 
+                if f.endswith((".md", ".json")) and "performance_log" not in f: 
                     os.remove(os.path.join(self.workspace.workspace_dir, f))
             return self._execute_phases(True, True, True, True)
         
         elif phase_key == 'b':
-            logging.info("Re-lanzando desde la FASE DE ESCRITURA.")
             if not self.state.get("research_catalog"):
                 logging.error("No se puede iniciar desde la escritura, falta la investigación.")
                 return None, None
-            
-            # --- LÓGICA DE LIMPIEZA CORREGIDA ---
-            # 1. Borrar capítulos y auditoría del estado
             self.state["book_content"] = []
-            if 'audit_report' in self.state:
-                del self.state['audit_report']
-
-            # 2. Sincronizar el estado limpio con todas las fases
+            if 'audit_report' in self.state: del self.state['audit_report']
             self._update_phase_handlers_state() 
-
-            # 3. Borrar los archivos físicos correspondientes
             for f in os.listdir(self.workspace.workspace_dir):
                 if f.endswith(".md") or f == "audit_report.json":
                     os.remove(os.path.join(self.workspace.workspace_dir, f))
-            
             logging.info("Estado y archivos de capítulos anteriores eliminados. Iniciando re-escritura...")
             return self._execute_phases(False, True, True, True)
             
         elif phase_key == 'c':
-            logging.info("Re-lanzando desde la FASE DE REFINAMIENTO.")
             if not self.state.get("book_content"):
                 logging.error("No se puede iniciar desde el refinamiento, faltan los capítulos.")
                 return None, None
-            return self._execute_phases(False, False, False, True) # Se salta la auditoría para ir directo a la revisión humana
+            return self._execute_phases(False, False, False, True)
         
         else:
             logging.error("Clave de fase no reconocida.")

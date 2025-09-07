@@ -30,7 +30,7 @@ def load_last_run_meta():
 
 def main():
     print("------------------------------------------------------------------")
-    print("🤖 Fábrica de Libros v48.0 - Con Análisis de YouTube Autónomo 🧠")
+    print("🤖 Fábrica de Libros v49.0 - Con Análisis Autónomo y Robusto 🧠")
     print("------------------------------------------------------------------")
 
     last_meta = load_last_run_meta()
@@ -86,57 +86,64 @@ def main():
                     shutil.rmtree(latest_workspace)
                 if os.path.exists(META_FILE_PATH):
                     os.remove(META_FILE_PATH)
+                # Salimos del bucle para proceder a la creación de un nuevo proyecto
+                last_meta = None
                 break
             
             else:
                 logging.warning("Opción no válida. Por favor, elige 1, 2, o 3.")
 
     # --- Lógica para iniciar un nuevo proyecto ---
-    logging.info("\n--- Iniciando un nuevo proyecto de libro desde cero ---")
-    if input("¿Limpiar caché de la IA antes de empezar? (s/n): ").lower() == 's':
-        clear_directory("cache")
+    if not last_meta: # Solo se ejecuta si estamos empezando de cero
+        logging.info("\n--- Iniciando un nuevo proyecto de libro desde cero ---")
+        if input("¿Limpiar caché de la IA antes de empezar? (s/n): ").lower() == 's':
+            clear_directory("cache")
 
-    print("\n--- [PASO 1 de 4] DEFINICIÓN DEL LIBRO ---")
-    core_topic = input("Introduce el TEMA CLAVE del libro: ")
-    q1 = input(" - ¿Cuál es el objetivo principal y qué problema resuelve?: ")
-    q2 = input(" - ¿Quién es el público objetivo?: ")
-    description = f"Objetivo: {q1}\nPúblico: {q2}"
-    domain = input("\n¿Cuál es el DOMINIO TEMÁTICO?: ")
-    topics_to_avoid_str = input("¿Temas a EVITAR? (separados por comas): ")
-    topics_to_avoid = [t.strip() for t in topics_to_avoid_str.split(',') if t.strip()]
+        print("\n--- [PASO 1 de 4] DEFINICIÓN DEL LIBRO ---")
+        core_topic = input("Introduce el TEMA CLAVE del libro: ")
+        q1 = input(" - ¿Cuál es el objetivo principal y qué problema resuelve?: ")
+        q2 = input(" - ¿Quién es el público objetivo?: ")
+        description = f"Objetivo: {q1}\nPúblico: {q2}"
+        domain = input("\n¿Cuál es el DOMINIO TEMÁTICO?: ")
+        topics_to_avoid_str = input("¿Temas a EVITAR? (separados por comas): ")
+        topics_to_avoid = [t.strip() for t in topics_to_avoid_str.split(',') if t.strip()]
 
-    save_last_run_meta(core_topic, description, domain, topics_to_avoid)
-    
-    # --- LÓGICA DE ANÁLISIS AUTÓNOMO DE YOUTUBE ---
-    youtube_chapter_data = None
-    if os.path.exists("Youtube.txt"):
-        print("\n--- [PASO 2 de 4] 🔎 ANALIZANDO CONTENIDO DE YOUTUBE ---")
+        save_last_run_meta(core_topic, description, domain, topics_to_avoid)
         
-        # Se instancia un orquestador temporal solo para el análisis
-        orchestrator_for_analysis = BookOrchestrator(core_topic, description, domain, topics_to_avoid)
-        proposed_chapter = orchestrator_for_analysis.analyze_youtube_content()
+        # --- LÓGICA DE ANÁLISIS AUTÓNOMO DE YOUTUBE (AHORA MÁS ROBUSTA) ---
+        youtube_chapter_data = None
+        youtube_file_path = "Youtube.txt"
         
-        if proposed_chapter:
-            print("El Agente Analista de YouTube ha revisado el video y propone lo siguiente:")
-            print(f"  - TÍTULO SUGERIDO: {proposed_chapter.get('title')}")
-            print(f"  - ENFOQUE SUGERIDO: {proposed_chapter.get('focus')}")
-            print(f"  - TIPO DE CAPÍTULO: {proposed_chapter.get('chapter_type')}")
+        # Comprueba si el archivo existe Y si tiene contenido (tamaño > 0 bytes)
+        if os.path.exists(youtube_file_path) and os.path.getsize(youtube_file_path) > 0:
+            print("\n--- [PASO 2 de 4] 🔎 ANALIZANDO CONTENIDO DE YOUTUBE ---")
             
-            if input("\n¿Aceptas esta propuesta para incluirla en el libro? (s/n): ").lower() == 's':
-                youtube_chapter_data = proposed_chapter
-                logging.info("Propuesta aceptada. El capítulo de YouTube se integrará en la estructura del libro.")
+            orchestrator_for_analysis = BookOrchestrator(core_topic, description, domain, topics_to_avoid)
+            proposed_chapter = orchestrator_for_analysis.analyze_youtube_content()
+            
+            if proposed_chapter:
+                print("El Agente Analista de YouTube ha revisado el video y propone lo siguiente:")
+                print(f"  - TÍTULO SUGERIDO: {proposed_chapter.get('title')}")
+                print(f"  - ENFOQUE SUGERIDO: {proposed_chapter.get('focus')}")
+                print(f"  - TIPO DE CAPÍTULO: {proposed_chapter.get('chapter_type')}")
+                
+                if input("\n¿Aceptas esta propuesta para incluirla en el libro? (s/n): ").lower() == 's':
+                    youtube_chapter_data = proposed_chapter
+                    logging.info("Propuesta aceptada. El capítulo de YouTube se integrará en la estructura del libro.")
+            else:
+                logging.warning("El Analista de YouTube no pudo generar una propuesta para el capítulo.")
         else:
-            logging.warning("El Analista de YouTube no pudo generar una propuesta para el capítulo.")
+            logging.info("No se encontró 'Youtube.txt' o el archivo está vacío. Se continuará sin analizar contenido de YouTube.")
 
-    # --- INICIO DEL PROCESO PRINCIPAL ---
-    print("\n--- [PASO 3 de 4] 🚀 INICIANDO ORQUESTADOR PRINCIPAL ---")
-    orchestrator = BookOrchestrator(core_topic, description, domain, topics_to_avoid)
+        # --- INICIO DEL PROCESO PRINCIPAL ---
+        print("\n--- [PASO 3 de 4] 🚀 INICIANDO ORQUESTADOR PRINCIPAL ---")
+        orchestrator = BookOrchestrator(core_topic, description, domain, topics_to_avoid)
 
-    print("\n--- [PASO 4 de 4] 🎬 EJECUTANDO PROCESO COMPLETO ---")
-    fast_handler, heavy_handler = orchestrator.run_full_process(youtube_chapter_data=youtube_chapter_data)
-    
-    if fast_handler and heavy_handler:
-        display_usage_summary(fast_handler, heavy_handler)
+        print("\n--- [PASO 4 de 4] 🎬 EJECUTANDO PROCESO COMPLETO ---")
+        fast_handler, heavy_handler = orchestrator.run_full_process(youtube_chapter_data=youtube_chapter_data)
+        
+        if fast_handler and heavy_handler:
+            display_usage_summary(fast_handler, heavy_handler)
 
 
 if __name__ == "__main__":

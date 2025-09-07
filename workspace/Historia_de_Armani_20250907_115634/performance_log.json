@@ -1,0 +1,242 @@
+[
+    {
+        "timestamp": "2025-09-07T11:56:35.630101",
+        "agent_id": "research_web_query_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 1.53,
+            "tokens_used": 205
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:45:43.295853",
+        "agent_id": "research_master_curator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 3.23,
+            "tokens_used": 1181
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:45:46.931097",
+        "agent_id": "structuring_toc_generator",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 3.62,
+            "tokens_used": 871
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:45:47.785769",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.84,
+            "tokens_used": 441
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:46:01.473824",
+        "agent_id": "writer_introduction",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 13.69,
+            "tokens_used": 1239
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:46:02.179101",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.69,
+            "tokens_used": 431
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:46:23.776382",
+        "agent_id": "writer_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 21.59,
+            "tokens_used": 1530
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:46:24.544810",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.76,
+            "tokens_used": 437
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:46:43.342509",
+        "agent_id": "writer_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 18.8,
+            "tokens_used": 1434
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:46:44.216429",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.87,
+            "tokens_used": 449
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:47:04.541302",
+        "agent_id": "writer_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 20.32,
+            "tokens_used": 1583
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:47:05.195321",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.65,
+            "tokens_used": 420
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:47:29.355826",
+        "agent_id": "writer_foundational",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 24.16,
+            "tokens_used": 1640
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:47:30.142199",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.78,
+            "tokens_used": 449
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:47:52.631455",
+        "agent_id": "writer_tutorial",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 22.49,
+            "tokens_used": 1813
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:47:53.398669",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.75,
+            "tokens_used": 447
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:48:10.337147",
+        "agent_id": "writer_tutorial",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 16.94,
+            "tokens_used": 1451
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:48:11.264640",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.92,
+            "tokens_used": 489
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:48:31.186614",
+        "agent_id": "writer_comparison",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 19.92,
+            "tokens_used": 1693
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:48:32.537531",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 1.34,
+            "tokens_used": 450
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:48:51.677066",
+        "agent_id": "writer_tutorial",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 19.13,
+            "tokens_used": 1543
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:48:52.525846",
+        "agent_id": "structuring_context_summarizer",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 0.83,
+            "tokens_used": 453
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:49:08.744595",
+        "agent_id": "writer_conclusion",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 16.22,
+            "tokens_used": 1236
+        }
+    },
+    {
+        "timestamp": "2025-09-07T14:49:13.658910",
+        "agent_id": "content_auditor",
+        "event": "execution",
+        "details": {
+            "success": true,
+            "duration_seconds": 4.89,
+            "tokens_used": 11844
+        }
+    }
+]
